@@ -30,37 +30,38 @@ public class SlicingView extends View{
 		init();
 	}
 	
-	private int gravity;
+	private double gravity;
 	public boolean clear;
 	public Paint paintBrush;
 	public Path p;
 	public ArrayList<Path> strokes;
 	public ArrayList<Paint> strokesPaint;
 	
-	//fruit ninja stuff
-	//Old square implementation
-	/*int squarex, squarey;
-	public ArrayList<ShapeDrawable> objects;*/
+	//Contains all game objects 
 	private ArrayList<GameObject> gameobjs;
+	
+	//Multiplier for speed - used in difficulty settings
+	public double speedMult = 1.0;
+	
+	//Multiplier for size - used in difficulty settings
+	public double sizeMult = 1.0;
+	
 	int c = Color.RED;
 	
 	protected void init(){
-		gravity = 1;
+		gravity = .5;
 		clear = false;
 		strokes = new ArrayList<Path>();
 		strokesPaint = new ArrayList<Paint>();
 		
-		//Old square - objects implementation
-		/*
-		objects = new ArrayList<ShapeDrawable>();
-		squarex = 0;
-		squarey = 50;
-		ShapeDrawable square = new ShapeDrawable(new RectShape());
-		objects.add(square);*/
+		int xEnter1 = (int)(Math.random()*1200);
+		int yEnter1 = (int)(Math.random()*550);
+		int xSpeed1 = (int)(speedMult*Math.random()*-20);
+		int ySpeed1 = (int)(speedMult*Math.random()*40+10);
 		
 		gameobjs = new ArrayList<GameObject>();
-		GameObject square = new GameObject(0, 100, 50, 50, 7, 10);
-		GameObject squareTwo = new GameObject(400, 100, 100, 100, -7, 15);
+		GameObject square = new GameObject(0, 100, (int)(50*sizeMult), (int)(50*sizeMult), 7, 10);
+		GameObject squareTwo = new GameObject(xEnter1, 540, (int)(100*sizeMult), (int)(100*sizeMult), xSpeed1, ySpeed1);
 		square.getPaint().setColor(Color.RED);
 		squareTwo.getPaint().setColor(Color.BLUE);
 		gameobjs.add(squareTwo);
@@ -68,17 +69,7 @@ public class SlicingView extends View{
 	}
 	
 	protected void onDraw(Canvas canvas){
-		//Old square - objects implementation
-		/*
-		//move square (SUPER PRIMITIVE)
-		squarex+=2;
-		squarey+=gravity;
-		for (int i = 0; i < objects.size(); i++){
-			objects.get(i).getPaint().setColor(c);
-			objects.get(i).setBounds(squarex,squarey,squarex+50,squarey+50);
-			objects.get(i).draw(canvas);
-		}*/
-		
+
 		for(GameObject go : gameobjs){
 			//Decrease Y speed by the amount of gravity
 			go.setSpeedY(go.getSpeedY()-gravity);
@@ -100,19 +91,83 @@ public class SlicingView extends View{
 	    invalidate();
 	}
 	
+	//Go through all game objects and increase speed.
+	//Also increase speed multiplier.
+	public void incSpeed(){
+		for(GameObject go : gameobjs){
+			if(go.getSpeedX()>0){
+				go.setSpeedX(go.getSpeedX()+1);
+			}
+			else{
+				go.setSpeedX(go.getSpeedX()-1);
+			}
+			if(go.getSpeedY()>0){
+				go.setSpeedY(go.getSpeedY()+1);
+			}
+			else{
+				go.setSpeedY(go.getSpeedY()-1);
+			}
+		}
+		speedMult+=0.1;
+	}
+	
+	//Go through all game objects and decrease speed.
+	//Also decrease speed multiplier.
+	public void decSpeed(){
+		for(GameObject go : gameobjs){
+			if(go.getSpeedX()>0){
+				go.setSpeedX(go.getSpeedX()-1);
+			}
+			else{
+				go.setSpeedX(go.getSpeedX()+1);
+			}
+			if(go.getSpeedY()>0){
+				go.setSpeedY(go.getSpeedY()-1);
+			}
+			else{
+				go.setSpeedY(go.getSpeedY()+1);
+			}
+		}
+		if (speedMult>0.1){
+			speedMult-=0.1;
+		}
+	}
+	
+	//Go through all game objects and increase size.
+	//Also increase size multiplier.
+	public void incSize(){
+		for(GameObject go : gameobjs){
+			go.setWidth(go.getWidth()+10);
+			go.setHeight(go.getHeight()+10);
+		}
+		sizeMult+=0.1;
+	}
+	
+	//Go through all game objects and decrease size.
+	//Also decrease size multiplier.
+	public void decSize(){
+		for(GameObject go : gameobjs){
+			go.setWidth(go.getWidth()-10);
+			go.setHeight(go.getHeight()-10);
+		}
+		if(sizeMult>0.1){
+			sizeMult-=0.1;
+		}
+	}
+	
 	public boolean onTouchEvent(MotionEvent e){
 		if(e.getAction() == MotionEvent.ACTION_DOWN){
 			int x = (int)e.getX();
 			int y = (int)e.getY();
 			p = new Path();
 			paintBrush = new Paint();
-			paintBrush.setColor(m.getColor());                    // set the color
-		    paintBrush.setStrokeWidth(m.getThickness());               // set the size
-		    paintBrush.setDither(true);                    // set the dither to true
-		    paintBrush.setStyle(Paint.Style.STROKE);       // set to STOKE
-		    paintBrush.setStrokeJoin(Paint.Join.ROUND);    // set the join to round you want
-		    paintBrush.setStrokeCap(Paint.Cap.ROUND);      // set the paintBrush cap to round too
-		    paintBrush.setAntiAlias(true);                         // set anti alias so it smooths
+			paintBrush.setColor(m.getColor());                  // set the color
+		    paintBrush.setStrokeWidth(m.getThickness());        // set the size
+		    paintBrush.setDither(true);                    		// set the dither to true
+		    paintBrush.setStyle(Paint.Style.STROKE);       		// set to STROKE
+		    paintBrush.setStrokeJoin(Paint.Join.ROUND);    		// set the join to round you want
+		    paintBrush.setStrokeCap(Paint.Cap.ROUND);      		// set the paintBrush cap to round too
+		    paintBrush.setAntiAlias(true);                      // set anti alias so it smoothes
 		    strokesPaint.add(paintBrush);
 			strokes.add(p);
 			p.moveTo(x, y);
@@ -123,17 +178,11 @@ public class SlicingView extends View{
 			int y = (int)e.getY();
 			p.lineTo(x,y);
 			
-			// Old implementation
-			/*
-			if (x >= squarex && x <= squarex+50 && y >= squarey && y <= squarey+50 ){
-				//intersection test
-				objects.clear();	
-			}*/
-			
 			//Tests every GameObject in the gameobjs list
 			//If intersection is detected, removes that GameObject from the list
 			for (GameObject go : gameobjs){
 				if(go.intersect(x, y)){
+					m.scoreNumber += 10;		//score increases by 10 for every target hit
 					gameobjs.remove(go);
 				}
 			}
@@ -145,5 +194,4 @@ public class SlicingView extends View{
 		}
 		return false;
 	}
-	
 }

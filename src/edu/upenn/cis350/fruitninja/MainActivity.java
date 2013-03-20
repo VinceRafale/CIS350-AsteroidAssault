@@ -10,6 +10,12 @@ public class MainActivity extends Activity {
 	public int color;
 	public int thickness;
 	
+	public int scoreNumber;
+	
+	protected int getScoreNumber(){
+		return scoreNumber;
+	}
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +33,34 @@ public class MainActivity extends Activity {
     	SlicingView pbview = (SlicingView)findViewById(R.id.SlicingView);
 
     	pbview.clear = true;
+    	pbview.invalidate();
+    }
+    
+    public void onincSpeedClick(View view){
+    	SlicingView pbview = (SlicingView)findViewById(R.id.SlicingView);
+
+    	pbview.incSpeed();
+    	pbview.invalidate();
+    }
+    
+    public void ondecSpeedClick(View view){
+    	SlicingView pbview = (SlicingView)findViewById(R.id.SlicingView);
+
+    	pbview.decSpeed();
+    	pbview.invalidate();
+    }
+    
+    public void onincSizeClick(View view){
+    	SlicingView pbview = (SlicingView)findViewById(R.id.SlicingView);
+
+    	pbview.incSize();
+    	pbview.invalidate();
+    }
+    
+    public void ondecSizeClick(View view){
+    	SlicingView pbview = (SlicingView)findViewById(R.id.SlicingView);
+
+    	pbview.decSize();
     	pbview.invalidate();
     }
     

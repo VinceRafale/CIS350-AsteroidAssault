@@ -8,8 +8,8 @@ public class GameObject extends ShapeDrawable {
 	
 	protected int x; //X coordinate of top left corner
 	protected int y; //Y coordinate of top left corner
-	protected int xspeed; //Speed in X direction
-	protected int yspeed; //Speed in Y direction
+	protected double xspeed; //Speed in X direction
+	protected double yspeed; //Speed in Y direction
 	protected int width;  //Width
 	protected int height; //Height
 	
@@ -48,11 +48,11 @@ public class GameObject extends ShapeDrawable {
 		this.y = y;
 	}
 	
-	public void setSpeedX(int xspeed){
+	public void setSpeedX(double xspeed){
 		this.xspeed = xspeed;
 	}
 	
-	public void setSpeedY(int yspeed){
+	public void setSpeedY(double yspeed){
 		this.yspeed = yspeed;
 	}
 	
@@ -73,11 +73,11 @@ public class GameObject extends ShapeDrawable {
 		return y;
 	}
 	
-	public int getSpeedX(){
+	public double getSpeedX(){
 		return xspeed;
 	}
 	
-	public int getSpeedY(){
+	public double getSpeedY(){
 		return yspeed;
 	}
 	

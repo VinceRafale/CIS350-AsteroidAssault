@@ -3,10 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-<TextView 
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="Welcome to the PaintBrush Activity!"/>
+
 
 <edu.upenn.cis350.fruitninja.SlicingView android:id="@+id/SlicingView"
     android:layout_width="fill_parent"
@@ -17,12 +14,36 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 <edu.upenn.cis350.fruitninja.ScoreView android:id="@+id/ScoreView"
-    android:layout_width="370px"
+    android:layout_width="300px"
     android:layout_height="wrap_content"/>
 <Button android:id="@+id/Clear"
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
-    android:text="Reset"
+    android:text="Spawn"
     android:onClick="onClearButtonClick"/>
+<LinearLayout 
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<Button android:id="@+id/incSpeed"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="+ Speed"
+    android:onClick="onincSpeedClick"/>
+<Button android:id="@+id/decSpeed"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="- Speed"
+    android:onClick="ondecSpeedClick"/>
+<Button android:id="@+id/incSize"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="+ Size"
+    android:onClick="onincSizeClick"/>
+<Button android:id="@+id/decSize"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="- Size"
+    android:onClick="ondecSizeClick"/></LinearLayout>
 </LinearLayout>
 </LinearLayout>

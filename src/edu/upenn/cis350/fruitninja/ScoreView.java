@@ -39,6 +39,7 @@ public class ScoreView extends View{
 	
 	protected Paint thin;
 	protected Paint thick;
+	protected Paint scoreLabel;
 	
 	protected void init(){
 		square = new ShapeDrawable(new RectShape());
@@ -66,6 +67,13 @@ public class ScoreView extends View{
 		thick.setTypeface(Typeface.SANS_SERIF);
 		thick.setTextSize(25);
 		
+		//Score (the word "Score: ")
+		scoreLabel = new Paint();
+		scoreLabel.setColor(Color.RED);
+		scoreLabel.setTextAlign(Paint.Align.LEFT);
+		scoreLabel.setTypeface(Typeface.SANS_SERIF);
+		scoreLabel.setTextSize(25);
+		
 		m.setColor(Color.BLACK);
 		m.setThickness(2);
 	}
@@ -82,8 +90,11 @@ public class ScoreView extends View{
 		square4.getPaint().setColor(Color.BLACK);
 		square4.draw(canvas);
 		
+		String scoreValue = Integer.toString(m.scoreNumber);
+		
 		canvas.drawText("thin", 160, 30, thin);
 		canvas.drawText("THICK", 200, 30, thick);
+		canvas.drawText("Score: " + scoreValue, 160, 60, scoreLabel);		
 	}
 	
 	public boolean onTouchEvent(MotionEvent e){
