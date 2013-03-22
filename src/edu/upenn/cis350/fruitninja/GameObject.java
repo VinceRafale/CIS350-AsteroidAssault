@@ -30,6 +30,7 @@ public class GameObject extends ShapeDrawable {
 		x+=xspeed;
 		y-=yspeed;
 		this.setBounds(x,y,x+width,y+height);
+		//canvas.drawBitmap(Bitmap , matrix, paint)
 		super.draw(canvas);
 	}
 	

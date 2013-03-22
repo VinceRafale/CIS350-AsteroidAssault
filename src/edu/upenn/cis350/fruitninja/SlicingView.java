@@ -4,29 +4,36 @@ import java.util.ArrayList;
 
 import android.content.Context;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class SlicingView extends View{
 	
 	public MainActivity m;
+	private final Bitmap mBitmapFromSdcard;
 	
 	public SlicingView(Context c){
 		super(c);
 		m = (MainActivity) c;
+		mBitmapFromSdcard = BitmapFactory.decodeResource(getResources(), R.drawable.spacebg);
 		init();
 	}
 
 	public SlicingView(Context c, AttributeSet a){
 		super(c, a);
 		m = (MainActivity) c;
+		mBitmapFromSdcard = BitmapFactory.decodeResource(getResources(), R.drawable.spacebg);
 		init();
 	}
 	
@@ -44,7 +51,7 @@ public class SlicingView extends View{
 	public double speedMult = 1.0;
 	
 	//Multiplier for size - used in difficulty settings
-	public double sizeMult = 1.0;
+	public double sizeMult = 1.5;
 	
 	int c = Color.RED;
 	
@@ -57,19 +64,24 @@ public class SlicingView extends View{
 		int xEnter1 = (int)(Math.random()*1200);
 		int yEnter1 = (int)(Math.random()*550);
 		int xSpeed1 = (int)(speedMult*Math.random()*-20);
-		int ySpeed1 = (int)(speedMult*Math.random()*40+10);
+		int ySpeed1 = (int)(speedMult*Math.random()*50+15);
 		
 		gameobjs = new ArrayList<GameObject>();
 		GameObject square = new GameObject(0, 100, (int)(50*sizeMult), (int)(50*sizeMult), 7, 10);
 		GameObject squareTwo = new GameObject(xEnter1, 540, (int)(100*sizeMult), (int)(100*sizeMult), xSpeed1, ySpeed1);
+		//GameObject square = newGameObject();
+		//GameObject squareTwo = newGameObject();
+		
 		square.getPaint().setColor(Color.RED);
 		squareTwo.getPaint().setColor(Color.BLUE);
-		gameobjs.add(squareTwo);
 		gameobjs.add(square);
+		gameobjs.add(squareTwo);
 	}
 	
 	protected void onDraw(Canvas canvas){
 
+        canvas.drawBitmap(mBitmapFromSdcard, 0, 0, null);
+		
 		for(GameObject go : gameobjs){
 			//Decrease Y speed by the amount of gravity
 			go.setSpeedY(go.getSpeedY()-gravity);
@@ -81,7 +93,7 @@ public class SlicingView extends View{
 		}
 
 	    if (clear){
-	    	canvas.drawColor(Color.WHITE);
+	    	canvas.drawBitmap(mBitmapFromSdcard, 0, 0, null);
 	    	strokesPaint.clear();
 	    	strokes.clear();
 	    	clear = false;
@@ -180,10 +192,16 @@ public class SlicingView extends View{
 			
 			//Tests every GameObject in the gameobjs list
 			//If intersection is detected, removes that GameObject from the list
-			for (GameObject go : gameobjs){
-				if(go.intersect(x, y)){
+			for (int i = 0; i < gameobjs.size(); i++){
+				if(gameobjs.get(i).intersect(x, y)){
 					m.scoreNumber += 10;		//score increases by 10 for every target hit
-					gameobjs.remove(go);
+					
+					ScoreView sView = (ScoreView) m.findViewById(R.id.ScoreView);
+					sView.invalidate();
+					gameobjs.remove(gameobjs.get(i));
+					i--;
+					newGameObject();
+					
 				}
 			}
 			invalidate();
@@ -194,4 +212,68 @@ public class SlicingView extends View{
 		}
 		return false;
 	}
+	
+	//create a new game object in a random location and add it to the list of game objects
+	public GameObject newGameObject(){
+		double random = Math.random();
+		GameObject square;
+		int xSpeed = 1;
+		int ySpeed = 1;
+		int size = (int)(Math.random()*50+25);
+		
+		//Left Side
+		if(random < .3){
+			int yPos = (int) (550 * Math.random());
+			
+			xSpeed = (int)(speedMult*Math.random()*15 + 10);
+			ySpeed = (int)(speedMult*Math.random()*20 + (yPos/45));
+			
+			
+			
+			square = new GameObject(0, yPos, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed);
+		}
+		
+		//Top Side
+		else if(random < .5 && random >= .3){
+			int xPos = (int)(Math.random()*1200);
+			if(xPos > 600){
+				xSpeed = (int)(speedMult*Math.random()*-15);
+			}
+			else{
+				xSpeed = (int)(speedMult*Math.random()*15);
+			}
+			ySpeed = (int)(speedMult*Math.random()*1);
+			square = new GameObject(xPos, 0, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, -ySpeed);
+		}
+		
+		//Right Side
+		else if(random < .8 && random >= .5){
+			int yPos = (int) (550 * Math.random());
+			xSpeed = (int)(speedMult*Math.random()*-10 - 2);
+			ySpeed = (int)(speedMult*Math.random()*15 + (yPos/39));
+			
+			square = new GameObject(1200, yPos, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed);
+		}
+		
+		//Bottom Side
+		else{
+			int xPos = (int)(Math.random()*1200);
+			if(xPos > 600){
+				xSpeed = (int)(speedMult*Math.random()*-5);
+			}
+			else{
+				xSpeed = (int)(speedMult*Math.random()*5);
+			}
+			ySpeed = (int)(speedMult*Math.random()*10 + (1.2-speedMult)*40);
+			square = new GameObject(xPos, 550, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed);
+		}
+		
+		int[] colors = {Color.RED, Color.GREEN, Color.YELLOW, Color.MAGENTA, Color.DKGRAY};
+		int color = (int) Math.floor(Math.random()*5);
+		square.getPaint().setColor(colors[color]);
+		
+		gameobjs.add(square);
+		return square;
+	}
 }
+

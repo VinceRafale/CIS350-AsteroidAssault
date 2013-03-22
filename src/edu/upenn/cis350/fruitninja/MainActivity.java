@@ -1,5 +1,7 @@
 package edu.upenn.cis350.fruitninja;
 
+import java.io.File;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -11,6 +13,11 @@ public class MainActivity extends Activity {
 	public int thickness;
 	
 	public int scoreNumber;
+	public String bgFile;
+	
+	protected String getBgFile(){
+		return new File(getFilesDir(), "spaceBg.jpg").getAbsolutePath();
+	}
 	
 	protected int getScoreNumber(){
 		return scoreNumber;
@@ -31,9 +38,12 @@ public class MainActivity extends Activity {
     
     public void onClearButtonClick(View view){
     	SlicingView pbview = (SlicingView)findViewById(R.id.SlicingView);
+    	ScoreView sView = (ScoreView)findViewById(R.id.ScoreView);
 
     	pbview.clear = true;
+    	scoreNumber = 000;
     	pbview.invalidate();
+    	sView.invalidate();
     }
     
     public void onincSpeedClick(View view){
@@ -45,9 +55,11 @@ public class MainActivity extends Activity {
     
     public void ondecSpeedClick(View view){
     	SlicingView pbview = (SlicingView)findViewById(R.id.SlicingView);
+    	ScoreView sView = (ScoreView)findViewById(R.id.ScoreView);
 
     	pbview.decSpeed();
     	pbview.invalidate();
+    	sView.invalidate();
     }
     
     public void onincSizeClick(View view){
