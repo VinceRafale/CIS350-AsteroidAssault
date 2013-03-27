@@ -4,11 +4,14 @@ import java.io.File;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 
 public class MainActivity extends Activity {
 	
+	public static final String PREFS_NAME = "MyPrefsFile";
 	public int color;
 	public int thickness;
 	
@@ -76,6 +79,18 @@ public class MainActivity extends Activity {
     	pbview.invalidate();
     }
     
+    public void onMainMenuClick(View view){
+    	updateScore();
+    	Intent i = new Intent();
+    	
+    	// put the number of clicks into the Intent
+    	//i.putExtra(“NUM_CLICKS", num_clicks);
+    	setResult(RESULT_OK, i);
+    	// ends this Activity
+    	finish(); 
+
+    }
+    
     public void setColor(int c){
     	color = c;
     }
@@ -92,4 +107,21 @@ public class MainActivity extends Activity {
     	return thickness;
     }
     
+    protected void onStop(){
+        super.onStop();
+        updateScore();
+     }
+    
+    protected void updateScore(){
+    	 // We need an Editor object to make preference changes.
+        // All objects are from android.context.Context
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        int currHighScore = settings.getInt("highScore", 0);
+        if (scoreNumber > currHighScore){
+     	   editor.putInt("highScore", scoreNumber);
+     	   // Commit the edits!
+     	   editor.commit();
+        }   
+    }
 }

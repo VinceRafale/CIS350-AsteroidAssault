@@ -1,8 +1,10 @@
 package edu.upenn.cis350.fruitninja;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +15,8 @@ import android.graphics.Path;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -22,18 +26,25 @@ public class SlicingView extends View{
 	
 	public MainActivity m;
 	private final Bitmap mBitmapFromSdcard;
+	private final int EXP_ID;
 	
-	public SlicingView(Context c){
+	public SlicingView(Context c) throws IOException{
 		super(c);
 		m = (MainActivity) c;
 		mBitmapFromSdcard = BitmapFactory.decodeResource(getResources(), R.drawable.spacebg);
+		sp = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
+		AssetFileDescriptor afd = m.getAssets().openFd("explosion.wav");
+		EXP_ID = sp.load(afd, 0);
 		init();
 	}
 
-	public SlicingView(Context c, AttributeSet a){
+	public SlicingView(Context c, AttributeSet a) throws IOException{
 		super(c, a);
 		m = (MainActivity) c;
 		mBitmapFromSdcard = BitmapFactory.decodeResource(getResources(), R.drawable.spacebg);
+		sp = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
+		AssetFileDescriptor afd = m.getAssets().openFd("explosion.wav");
+		EXP_ID = sp.load(afd, 0);
 		init();
 	}
 	
@@ -43,6 +54,7 @@ public class SlicingView extends View{
 	public Path p;
 	public ArrayList<Path> strokes;
 	public ArrayList<Paint> strokesPaint;
+	private SoundPool sp;
 	
 	//Contains all game objects 
 	private ArrayList<GameObject> gameobjs;
@@ -67,8 +79,8 @@ public class SlicingView extends View{
 		int ySpeed1 = (int)(speedMult*Math.random()*50+15);
 		
 		gameobjs = new ArrayList<GameObject>();
-		GameObject square = new GameObject(0, 100, (int)(50*sizeMult), (int)(50*sizeMult), 7, 10);
-		GameObject squareTwo = new GameObject(xEnter1, 540, (int)(100*sizeMult), (int)(100*sizeMult), xSpeed1, ySpeed1);
+		GameObject square = new GameObject(0, 100, (int)(50*sizeMult), (int)(50*sizeMult), 7, 10, this);
+		GameObject squareTwo = new GameObject(xEnter1, 540, (int)(100*sizeMult), (int)(100*sizeMult), xSpeed1, ySpeed1, this);
 		//GameObject square = newGameObject();
 		//GameObject squareTwo = newGameObject();
 		
@@ -200,6 +212,7 @@ public class SlicingView extends View{
 					sView.invalidate();
 					gameobjs.remove(gameobjs.get(i));
 					i--;
+					sp.play(EXP_ID, 0.5f, 0.5f, 0, 0, 1);
 					newGameObject();
 					
 				}
@@ -230,7 +243,7 @@ public class SlicingView extends View{
 			
 			
 			
-			square = new GameObject(0, yPos, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed);
+			square = new GameObject(0, yPos, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed, this);
 		}
 		
 		//Top Side
@@ -243,7 +256,7 @@ public class SlicingView extends View{
 				xSpeed = (int)(speedMult*Math.random()*15);
 			}
 			ySpeed = (int)(speedMult*Math.random()*1);
-			square = new GameObject(xPos, 0, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, -ySpeed);
+			square = new GameObject(xPos, 0, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, -ySpeed, this);
 		}
 		
 		//Right Side
@@ -252,7 +265,7 @@ public class SlicingView extends View{
 			xSpeed = (int)(speedMult*Math.random()*-10 - 2);
 			ySpeed = (int)(speedMult*Math.random()*15 + (yPos/39));
 			
-			square = new GameObject(1200, yPos, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed);
+			square = new GameObject(1200, yPos, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed, this);
 		}
 		
 		//Bottom Side
@@ -265,7 +278,7 @@ public class SlicingView extends View{
 				xSpeed = (int)(speedMult*Math.random()*5);
 			}
 			ySpeed = (int)(speedMult*Math.random()*10 + (1.2-speedMult)*40);
-			square = new GameObject(xPos, 550, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed);
+			square = new GameObject(xPos, 550, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed, this);
 		}
 		
 		int[] colors = {Color.RED, Color.GREEN, Color.YELLOW, Color.MAGENTA, Color.DKGRAY};

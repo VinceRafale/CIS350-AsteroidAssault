@@ -1,6 +1,9 @@
 package edu.upenn.cis350.fruitninja;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.graphics.drawable.ShapeDrawable;
 
 //Class for a GameObject(fruit/sushi/baby/etc) -- maybe later on shapes can be inheriting from this
@@ -12,8 +15,9 @@ public class GameObject extends ShapeDrawable {
 	protected double yspeed; //Speed in Y direction
 	protected int width;  //Width
 	protected int height; //Height
+	protected Bitmap picture;
 	
-	public GameObject(int x, int y, int width, int height, int xspeed, int yspeed){
+	public GameObject(int x, int y, int width, int height, int xspeed, int yspeed, SlicingView sv){
 		this.x = x;
 		this.y = y;
 		this.xspeed = xspeed;
@@ -21,6 +25,7 @@ public class GameObject extends ShapeDrawable {
 		this.width = width;
 		this.height = height;
 		this.setBounds(x, y, x + width, y + height);
+		picture = BitmapFactory.decodeResource(sv.getResources(), R.drawable.asteroid);
 	}
 	
 	
@@ -31,7 +36,9 @@ public class GameObject extends ShapeDrawable {
 		y-=yspeed;
 		this.setBounds(x,y,x+width,y+height);
 		//canvas.drawBitmap(Bitmap , matrix, paint)
-		super.draw(canvas);
+		Rect boundRect = new Rect(x,y,x+width,y+height);
+		canvas.drawBitmap(picture, null, boundRect, this.getPaint());
+		//super.draw(canvas);
 	}
 	
 	//Test intersection between an input point and the object
