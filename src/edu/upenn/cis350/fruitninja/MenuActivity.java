@@ -18,6 +18,7 @@ public class MenuActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menu);
 		getHighScore();
+		getPlayTime();
 	}     
 	 
  	public void onStartButtonClick(View v) {
@@ -37,12 +38,20 @@ public class MenuActivity extends Activity {
 	    hiScoreView.setText("High Score: " + highScore);
  	}
  	
+ 	protected void getPlayTime(){
+ 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		TextView playTimeView = (TextView)findViewById(R.id.playTime);
+		int playTime = settings.getInt("playTime", 0);
+	    playTimeView.setText("Total Play Time: " + playTime);
+ 	}
+ 	
  	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
  		super.onActivityResult(requestCode, resultCode, intent);
  		// the requestCode lets us know which Activity it was
  		switch(requestCode) {
  			case 1:
  				getHighScore();
+ 				getPlayTime();
  			break;
  		}  
  	}

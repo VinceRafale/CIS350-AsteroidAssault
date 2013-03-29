@@ -95,6 +95,7 @@ public class ScoreView extends View{
 		canvas.drawText("thin", 160, 30, thin);
 		canvas.drawText("THICK", 200, 30, thick);
 		canvas.drawText("Score: " + scoreValue, 160, 60, scoreLabel);		
+		//canvas.drawText("Score: " + m.t.getElapsedTime(), 160, 60, scoreLabel);		
 	}
 	
 	public boolean onTouchEvent(MotionEvent e){

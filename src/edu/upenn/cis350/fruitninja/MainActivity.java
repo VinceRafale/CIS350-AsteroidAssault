@@ -17,6 +17,8 @@ public class MainActivity extends Activity {
 	
 	public int scoreNumber;
 	public String bgFile;
+	public Timer t = new Timer();
+	public Timer playTimer = new Timer();
 	
 	protected String getBgFile(){
 		return new File(getFilesDir(), "spaceBg.jpg").getAbsolutePath();
@@ -81,6 +83,7 @@ public class MainActivity extends Activity {
     
     public void onMainMenuClick(View view){
     	updateScore();
+    	updateTime();
     	Intent i = new Intent();
     	
     	// put the number of clicks into the Intent
@@ -110,6 +113,7 @@ public class MainActivity extends Activity {
     protected void onStop(){
         super.onStop();
         updateScore();
+        updateTime();
      }
     
     protected void updateScore(){
@@ -120,8 +124,19 @@ public class MainActivity extends Activity {
         int currHighScore = settings.getInt("highScore", 0);
         if (scoreNumber > currHighScore){
      	   editor.putInt("highScore", scoreNumber);
+        	
      	   // Commit the edits!
      	   editor.commit();
         }   
+    }
+    
+    protected void updateTime(){
+    	SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        int oldPlayTime = settings.getInt("playTime", 0);
+        System.out.println("Play time: " + playTimer.getElapsedTime());
+     	editor.putInt("playTime", (int)(oldPlayTime + playTimer.getElapsedTime()) );	
+ 	   // Commit the edits!
+ 	   editor.commit(); 
     }
 }
