@@ -38,10 +38,6 @@ public class MenuActivity extends Activity {
  	
  	protected void getHighScore(){
  		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
- 		/*
-		TextView hiScoreView = (TextView)findViewById(R.id.highScore);
-		int highScore = settings.getInt("highScore", 0);
-	    hiScoreView.setText("High Score: " + highScore);*/
  		ArrayList<Integer> highscores = new ArrayList<Integer>(10);
  		for(int i=0; i<10; i++){
  			highscores.add(settings.getInt("highScore" + (i+1), 0));

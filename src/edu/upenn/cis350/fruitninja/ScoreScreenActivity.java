@@ -10,6 +10,7 @@ public class ScoreScreenActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.score);
+		
 		Bundle extras = getIntent().getExtras();
 		int misses = (Integer)extras.get("MISSES");
 		int hits = (Integer)extras.get("HITS");

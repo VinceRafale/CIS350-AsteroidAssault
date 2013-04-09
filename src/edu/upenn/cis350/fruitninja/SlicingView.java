@@ -93,8 +93,6 @@ public class SlicingView extends View{
 		gameobjs = new ArrayList<GameObject>();
 		GameObject square = new GameObject(0, 100, (int)(50*sizeMult), (int)(50*sizeMult), 7, 10, this);
 		GameObject squareTwo = new GameObject(xEnter1, 540, (int)(100*sizeMult), (int)(100*sizeMult), xSpeed1, ySpeed1, this);
-		//GameObject square = newGameObject();
-		//GameObject squareTwo = newGameObject();
 		
 		square.getPaint().setColor(Color.RED);
 		squareTwo.getPaint().setColor(Color.BLUE);
@@ -106,6 +104,7 @@ public class SlicingView extends View{
 		m.playTimer.start();
 	}
 	
+	//Draw the view
 	protected void onDraw(Canvas canvas){
 
         canvas.drawBitmap(mBitmapFromSdcard, 0, 0, null);
@@ -256,6 +255,7 @@ public class SlicingView extends View{
 			if(m.scoreNumber < 200 && m.t.getElapsedTime() >= 30){
 				sp.play(TRMB_ID, 0.5f, 0.5f, 0, 0, 1);
 				m.scoreNumber = 0;
+				//Save the three lines below for further testing purposes //
 				//incSize();
 				//decSpeed();
 				//m.t.start();

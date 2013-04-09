@@ -118,6 +118,7 @@ public class MainActivity extends Activity {
         sortScores();
     }
     
+    //Sorts the scores in the database 
     protected void sortScores(){
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -153,4 +154,13 @@ public class MainActivity extends Activity {
  	    // using the specified request code
  	    startActivityForResult(i, ScoreScreenActivity_ID);
 	 } 	
+    
+    public void setColor(int col){
+    	color = col;
+    }
+    
+    public void setThickness(int thick){
+    	thickness = thick;
+    }
+    
 }
