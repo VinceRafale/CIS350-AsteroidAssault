@@ -3,21 +3,25 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_centerInParent="true">
+    android:layout_centerInParent="true"
+    android:background="@drawable/menubg">
 
 <Button android:id="@+id/start"
     android:layout_width="wrap_content" 
-    android:layout_height="wrap_content" 
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
     android:text="Start Game"
     android:onClick="onStartButtonClick"/>
  <TextView
      	android:id="@+id/highScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
         android:text="High Score = " />
   <TextView
      	android:id="@+id/playTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
         android:text="Play Time = " />
   </LinearLayout>
