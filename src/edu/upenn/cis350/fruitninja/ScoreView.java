@@ -15,6 +15,8 @@ import android.view.View;
 public class ScoreView extends View{
 
 	public MainActivity m;
+	public String[] visualfeedback = {"Good Job!", "Awesome!", "Clutch!", "Well Done!", "Amazing!", "Good Work!",
+			  "Fantastic!", "Nice!", "Unstoppable!"};
 	
 	public ScoreView(Context c){
 		super(c);
@@ -31,31 +33,20 @@ public class ScoreView extends View{
 	public Paint paintBrush;
 	public int test = 0;
 	
-	protected ShapeDrawable square;
-	protected ShapeDrawable square1;
-	protected ShapeDrawable square2;
-	protected ShapeDrawable square3;
-	protected ShapeDrawable square4;
-	
-	protected Paint thin;
-	protected Paint thick;
+	protected Paint encouragement;
 	protected Paint scoreLabel;
 	
-	protected void init(){
+	protected void init(){	
 		
-		//thin
-		thin = new Paint();
-		thin.setColor(Color.BLACK);
-		thin.setTextAlign(Paint.Align.LEFT);
-		thin.setTypeface(Typeface.SANS_SERIF);
-		thin.setTextSize(20);
-		
-		//THICK
-		thick = new Paint();
-		thick.setColor(Color.BLACK);
-		thick.setTextAlign(Paint.Align.LEFT);
-		thick.setTypeface(Typeface.SANS_SERIF);
-		thick.setTextSize(25);
+		m.setColor(Color.WHITE);
+		m.setThickness(2);
+
+		//visual feedback
+		encouragement = new Paint();
+		encouragement.setColor(Color.BLACK);
+		encouragement.setTextAlign(Paint.Align.LEFT);
+		encouragement.setTypeface(Typeface.SANS_SERIF);
+		encouragement.setTextSize(20);
 		
 		//Score (the word "Score: ")
 		scoreLabel = new Paint();
@@ -63,18 +54,15 @@ public class ScoreView extends View{
 		scoreLabel.setTextAlign(Paint.Align.LEFT);
 		scoreLabel.setTypeface(Typeface.SANS_SERIF);
 		scoreLabel.setTextSize(25);
-		
-		m.setColor(Color.WHITE);
-		m.setThickness(2);
 	}
 	
 	protected void onDraw(Canvas canvas){
-		canvas.drawColor(Color.BLACK);
-		
+		//	canvas.drawColor(Color.BLACK);
 		String scoreValue = Integer.toString(m.scoreNumber);
 		
-		canvas.drawText("thin", 160, 30, thin);
-		canvas.drawText("THICK", 200, 30, thick);
+		int randomIndex = (int) (Math.random()*visualfeedback.length);
+		
+		canvas.drawText(visualfeedback[randomIndex], 160, 30, encouragement);
 		canvas.drawText("Score: " + scoreValue, 160, 60, scoreLabel);		
 		//canvas.drawText("Score: " + m.t.getElapsedTime(), 160, 60, scoreLabel);		
 	}
@@ -83,15 +71,6 @@ public class ScoreView extends View{
 		if(e.getAction() == MotionEvent.ACTION_DOWN){
 			int x = (int)e.getX();
 			int y = (int)e.getY();
-			 if (x > 160 && x < 200 && y > 0 && y < 30){
-				Log.v("tag", "thin");
-				m.setThickness(2);
-				return true;
-			}else if (x > 200 && x < 270 && y > 0 && y < 30){
-				Log.v("tag", "THICK");
-				m.setThickness(6);
-				return true;
-			}
 		}
 		return false;
 	}
