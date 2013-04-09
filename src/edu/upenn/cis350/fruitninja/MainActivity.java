@@ -162,5 +162,4 @@ public class MainActivity extends Activity {
     public void setThickness(int thick){
     	thickness = thick;
     }
-    
 }

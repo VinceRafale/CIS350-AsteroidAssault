@@ -141,6 +141,12 @@ public class SlicingView extends View{
 	    	init();
 	    	invalidate();
 	    }
+	    
+	    //if m.misses reaches 5 LOSE GAME
+	    if (m.misses > 5){
+	    	
+	    }
+	    
 	    invalidate();
 	}
 	
