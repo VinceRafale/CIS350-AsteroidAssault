@@ -152,5 +152,5 @@ public class MainActivity extends Activity {
  	    // pass the Intent to the Activity, 
  	    // using the specified request code
  	    startActivityForResult(i, ScoreScreenActivity_ID);
-	 } 	
+	 }
 }

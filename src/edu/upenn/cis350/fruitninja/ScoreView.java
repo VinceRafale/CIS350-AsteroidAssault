@@ -37,9 +37,6 @@ public class ScoreView extends View{
 	protected Paint scoreLabel;
 	
 	protected void init(){	
-		
-		m.setColor(Color.WHITE);
-		m.setThickness(2);
 
 		//visual feedback
 		encouragement = new Paint();
