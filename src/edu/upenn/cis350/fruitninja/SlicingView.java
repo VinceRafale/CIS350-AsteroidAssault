@@ -213,8 +213,8 @@ public class SlicingView extends View{
 			int y = (int)e.getY();
 			p = new Path();
 			paintBrush = new Paint();
-			paintBrush.setColor(m.getColor());                  // set the color
-		    paintBrush.setStrokeWidth(m.getThickness());        // set the size
+			paintBrush.setColor(Color.WHITE);                  // set the color
+		    paintBrush.setStrokeWidth(2);        // set the size
 		    paintBrush.setDither(true);                    		// set the dither to true
 		    paintBrush.setStyle(Paint.Style.STROKE);       		// set to STROKE
 		    paintBrush.setStrokeJoin(Paint.Join.ROUND);    		// set the join to round you want

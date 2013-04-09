@@ -94,22 +94,6 @@ public class MainActivity extends Activity {
 
     }
     
-    public void setColor(int c){
-    	color = c;
-    }
-    
-    public int getColor(){
-    	return color;
-    }
-    
-    public void setThickness(int t){
-    	thickness = t;
-    }
-    
-    public int getThickness(){
-    	return thickness;
-    }
-    
     protected void onStop(){
         super.onStop();
         updateScore();
