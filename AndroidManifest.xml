@@ -24,6 +24,7 @@
         </activity>
         
         <activity android:name="edu.upenn.cis350.fruitninja.MainActivity"/>
+        <activity android:name="edu.upenn.cis350.fruitninja.ScoreScreenActivity"/>
     </application>
 
 </manifest>

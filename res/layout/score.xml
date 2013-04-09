@@ -5,24 +5,22 @@
     android:layout_height="fill_parent"
     android:layout_centerInParent="true">
 
-<Button android:id="@+id/start"
+  <TextView 
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
-    android:text="Start Game"
-    android:onClick="onStartButtonClick"/>
+    android:text="LEVEL SUMMARY" />
+<TextView android:id="@+id/hits"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="Hits/Misses: " />
  <TextView
-     	android:id="@+id/highscoreTitle"
-        android:layout_width="300px"
-        android:layout_height="wrap_content"
-        android:text="High Scores " />
-<ListView
-    android:id="@+id/highscores"
-    android:layout_width="300px" 
-    android:layout_height="500px" />
-
-  <TextView
-     	android:id="@+id/playTime"
+     	android:id="@+id/hitsPercent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play Time = " />
+        android:text="Hits/Misses(%): " />
+  <TextView
+     	android:id="@+id/levelTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time taken to complete level: " />
   </LinearLayout>

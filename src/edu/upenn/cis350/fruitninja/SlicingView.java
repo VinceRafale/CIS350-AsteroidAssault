@@ -121,10 +121,12 @@ public class SlicingView extends View{
 			go.draw(canvas);
 		}
 		
+		//Object goes off screen --> remove it, increase number of misses
 		for (int i = 0; i < gameobjs.size(); i++){
 			if(gameobjs.get(i).x < -100 || gameobjs.get(i).x > 1600 || gameobjs.get(i).y < -100 
 					|| gameobjs.get(i).y > 800){
 				gameobjs.remove(gameobjs.get(i));
+				m.misses++;
 			}
 		}
 		
@@ -234,6 +236,7 @@ public class SlicingView extends View{
 			//If intersection is detected, removes that GameObject from the list
 			for (int i = 0; i < gameobjs.size(); i++){
 				if(gameobjs.get(i).intersect(x, y)){
+					m.hits++;
 					m.scoreNumber += 10;		//score increases by 10 for every target hit
 					
 					ScoreView sView = (ScoreView) m.findViewById(R.id.ScoreView);
@@ -248,14 +251,15 @@ public class SlicingView extends View{
 			
 			//CHECK FOR LEVEL 1
 			if(m.scoreNumber >= 200 && m.t.getElapsedTime() < 30){
-				m.onMainMenuClick(this);
+				m.showScoreScreen();
 			}
 			if(m.scoreNumber < 200 && m.t.getElapsedTime() >= 30){
 				sp.play(TRMB_ID, 0.5f, 0.5f, 0, 0, 1);
 				m.scoreNumber = 0;
-				incSize();
-				decSpeed();
-				m.t.start();
+				//incSize();
+				//decSpeed();
+				//m.t.start();
+				m.showScoreScreen();
 			}
 			
 			

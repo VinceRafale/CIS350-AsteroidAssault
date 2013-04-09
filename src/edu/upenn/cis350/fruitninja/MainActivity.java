@@ -1,6 +1,7 @@
 package edu.upenn.cis350.fruitninja;
 
 import java.io.File;
+import java.util.Arrays;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -11,10 +12,12 @@ import android.view.View;
 
 public class MainActivity extends Activity {
 	
+	public static final int ScoreScreenActivity_ID = 2;
 	public static final String PREFS_NAME = "MyPrefsFile";
 	public int color;
 	public int thickness;
-	
+	public int hits = 0;
+	public int misses = 0;
 	public int scoreNumber;
 	public String bgFile;
 	public Timer t = new Timer();
@@ -121,22 +124,49 @@ public class MainActivity extends Activity {
         // All objects are from android.context.Context
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        int currHighScore = settings.getInt("highScore", 0);
-        if (scoreNumber > currHighScore){
-     	   editor.putInt("highScore", scoreNumber);
+        int minHighScore = settings.getInt("highScore10", -1);
+        if (scoreNumber > minHighScore){
+     	   editor.putInt("highScore10", scoreNumber);
         	
      	   // Commit the edits!
      	   editor.commit();
         }   
+        sortScores();
+    }
+    
+    protected void sortScores(){
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        int[] highscores = new int[10];
+        for(int i = 0; i < 10; i++){
+        	highscores[i] = settings.getInt("highScore" + (i+1), 0);
+        }
+        Arrays.sort(highscores);
+        for(int i = 0; i < 10; i++){
+        	editor.putInt("highScore" + (i+1), highscores[9-i]);
+        }
+        editor.commit();
     }
     
     protected void updateTime(){
     	SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         int oldPlayTime = settings.getInt("playTime", 0);
-        System.out.println("Play time: " + playTimer.getElapsedTime());
      	editor.putInt("playTime", (int)(oldPlayTime + playTimer.getElapsedTime()) );	
  	   // Commit the edits!
  	   editor.commit(); 
     }
+    
+    public void showScoreScreen() {
+    	updateTime();
+ 	    // create an Intent using the current Activity 
+	    // and the Class to be created
+ 	    Intent i = new Intent(this, ScoreScreenActivity.class);
+ 	    i.putExtra("PLAYTIME", playTimer.getElapsedTime());
+ 	    i.putExtra("HITS", hits);
+ 	    i.putExtra("MISSES", misses);
+ 	    // pass the Intent to the Activity, 
+ 	    // using the specified request code
+ 	    startActivityForResult(i, ScoreScreenActivity_ID);
+	 } 	
 }

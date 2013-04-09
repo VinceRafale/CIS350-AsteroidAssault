@@ -42,16 +42,6 @@ public class ScoreView extends View{
 	protected Paint scoreLabel;
 	
 	protected void init(){
-		square = new ShapeDrawable(new RectShape());
-		square.setBounds(0,0,0+30,0+30);
-		square1 = new ShapeDrawable(new RectShape());
-		square1.setBounds(30,0,30+30,0+30);
-		square2 = new ShapeDrawable(new RectShape());
-		square2.setBounds(60,0,60+30,0+30);
-		square3 = new ShapeDrawable(new RectShape());
-		square3.setBounds(90,0,90+30,0+30);
-		square4 = new ShapeDrawable(new RectShape());
-		square4.setBounds(120,0,120+30,0+30);
 		
 		//thin
 		thin = new Paint();
@@ -74,21 +64,12 @@ public class ScoreView extends View{
 		scoreLabel.setTypeface(Typeface.SANS_SERIF);
 		scoreLabel.setTextSize(25);
 		
-		m.setColor(Color.BLACK);
+		m.setColor(Color.WHITE);
 		m.setThickness(2);
 	}
 	
 	protected void onDraw(Canvas canvas){
-		square.getPaint().setColor(Color.RED);
-		square.draw(canvas);
-		square1.getPaint().setColor(Color.YELLOW);
-		square1.draw(canvas);
-		square2.getPaint().setColor(Color.GREEN);
-		square2.draw(canvas);
-		square3.getPaint().setColor(Color.BLUE);
-		square3.draw(canvas);
-		square4.getPaint().setColor(Color.BLACK);
-		square4.draw(canvas);
+		canvas.drawColor(Color.BLACK);
 		
 		String scoreValue = Integer.toString(m.scoreNumber);
 		
@@ -102,27 +83,7 @@ public class ScoreView extends View{
 		if(e.getAction() == MotionEvent.ACTION_DOWN){
 			int x = (int)e.getX();
 			int y = (int)e.getY();
-			if (x > 0 && x < 30 && y > 0 && y < 30){
-				Log.v("tag", "RED"); 
-				m.setColor(Color.RED);
-				return true;
-			}else if (x > 30 && x < 60 && y > 0 && y < 30){
-				Log.v("tag", "YELLOW");
-				m.setColor(Color.YELLOW);
-				return true;
-			}else if (x > 60 && x < 90 && y > 0 && y < 30){
-				Log.v("tag", "GREEN");
-				m.setColor(Color.GREEN);
-				return true;
-			}else if (x > 90 && x < 120 && y > 0 && y < 30){
-				Log.v("tag", "BLUE");
-				m.setColor(Color.BLUE);
-				return true;
-			}else if (x > 120 && x < 150 && y > 0 && y < 30){
-				Log.v("tag", "BLACK");
-				m.setColor(Color.BLACK);
-				return true;
-			}else if (x > 160 && x < 200 && y > 0 && y < 30){
+			 if (x > 160 && x < 200 && y > 0 && y < 30){
 				Log.v("tag", "thin");
 				m.setThickness(2);
 				return true;

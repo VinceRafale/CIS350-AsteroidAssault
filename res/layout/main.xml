@@ -21,7 +21,9 @@
     android:layout_height="wrap_content" 
     android:text="Spawn"
     android:onClick="onClearButtonClick"/>
-<Button android:id="@+id/incSpeed"
+<!-- 
+** Uncomment this part for in-game difficulty changing**
+ <Button android:id="@+id/incSpeed"
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
     android:text="+ Speed"
@@ -41,6 +43,7 @@
     android:layout_height="wrap_content" 
     android:text="- Size"
     android:onClick="ondecSizeClick"/>
+-->
 <Button android:id="@+id/mainMenu"
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
