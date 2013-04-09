@@ -43,7 +43,7 @@ public class ScoreView extends View{
 
 		//visual feedback
 		encouragement = new Paint();
-		encouragement.setColor(Color.BLACK);
+		encouragement.setColor(Color.WHITE);
 		encouragement.setTextAlign(Paint.Align.LEFT);
 		encouragement.setTypeface(Typeface.SANS_SERIF);
 		encouragement.setTextSize(20);

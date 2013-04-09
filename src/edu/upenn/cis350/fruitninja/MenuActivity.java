@@ -49,6 +49,7 @@ public class MenuActivity extends Activity {
  		ListView highscoreList = (ListView)findViewById(R.id.highscores);
  		ArrayAdapter<Integer> aa = new ArrayAdapter<Integer>(this,android.R.layout.simple_list_item_1, highscores);
  		highscoreList.setAdapter(aa);
+
  	}
  	
  	protected void getPlayTime(){
