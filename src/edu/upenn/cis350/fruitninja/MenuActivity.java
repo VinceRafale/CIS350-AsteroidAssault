@@ -16,13 +16,13 @@ import android.widget.TextView;
 public class MenuActivity extends Activity {
 	// request code used in creating the new Activity
 	public static final int MainActivity_ID = 1;
+	public static final int LeaderboardActivity_ID = 4;
 	
 	public static final String PREFS_NAME = "MyPrefsFile";
 	 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menu);
-		getHighScore();
 		getPlayTime();
 	}     
 	 
@@ -36,17 +36,16 @@ public class MenuActivity extends Activity {
  	    startActivityForResult(i, MainActivity_ID);
 	 } 	
  	
- 	protected void getHighScore(){
- 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
- 		ArrayList<Integer> highscores = new ArrayList<Integer>(10);
- 		for(int i=0; i<10; i++){
- 			highscores.add(settings.getInt("highScore" + (i+1), 0));
- 		}
- 		ListView highscoreList = (ListView)findViewById(R.id.highscores);
- 		ArrayAdapter<Integer> aa = new ArrayAdapter<Integer>(this,android.R.layout.simple_list_item_1, highscores);
- 		highscoreList.setAdapter(aa);
+ 	public void onLeaderboardClick(View v) {
+ 	    // create an Intent using the current Activity 
+	    // and the Class to be created
+ 	    Intent i = new Intent(this, LeaderboardActivity.class);
+ 
+ 	    // pass the Intent to the Activity, 
+ 	    // using the specified request code
+ 	    startActivityForResult(i, LeaderboardActivity_ID);
+	 } 	
 
- 	}
  	
  	protected void getPlayTime(){
  		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
@@ -60,7 +59,6 @@ public class MenuActivity extends Activity {
  		// the requestCode lets us know which Activity it was
  		switch(requestCode) {
  			case 1:
- 				getHighScore();
  				getPlayTime();
  			break;
  		}  

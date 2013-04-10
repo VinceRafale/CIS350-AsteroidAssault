@@ -14,17 +14,13 @@
   	android:textColor="#FFFFFF"
     android:text="Start Game"
     android:onClick="onStartButtonClick"/>
- <TextView
-     	android:id="@+id/highscoreTitle"
-        android:layout_width="300px"
-        android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:text="High Scores " />
-<ListView
-    android:id="@+id/highscores"
-    android:layout_width="300px"
+<Button android:id="@+id/leaderboard"
+    android:layout_width="wrap_content" 
     android:layout_height="wrap_content"
-    android:textColor="#FFFFFF"/>
+    android:layout_centerInParent="true"
+  	android:textColor="#FFFFFF"
+    android:text="Leaderboard"
+    android:onClick="onLeaderboardClick"/>
 <TextView
  	android:id="@+id/playTime"
     android:layout_width="wrap_content"
