@@ -59,11 +59,12 @@ public class ScoreView extends View{
 	protected void onDraw(Canvas canvas){
 		//	canvas.drawColor(Color.BLACK);
 		String scoreValue = Integer.toString(m.scoreNumber);
+		String levNum = Integer.toString(m.levelNumber);
 		
 		int randomIndex = (int) (Math.random()*visualfeedback.length);
 		
 		canvas.drawText(visualfeedback[randomIndex], 160, 30, encouragement);
-		canvas.drawText("Score: " + scoreValue, 160, 60, scoreLabel);		
+		canvas.drawText("Score: " + scoreValue + "( Level " + levNum + " )", 160, 60, scoreLabel);				
 		//canvas.drawText("Score: " + m.t.getElapsedTime(), 160, 60, scoreLabel);		
 	}
 	

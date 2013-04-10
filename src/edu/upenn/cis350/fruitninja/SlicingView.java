@@ -67,6 +67,9 @@ public class SlicingView extends View{
 	public ArrayList<Path> strokes;
 	public ArrayList<Paint> strokesPaint;
 	private SoundPool sp;
+	public int levelNum = 0;
+	public int[] levelScores = {100, 150, 250, 350, 400};
+	public int[] levelTimes = {30, 40, 80, 120, 200};
 	
 	//Contains all game objects 
 	private ArrayList<GameObject> gameobjs;
@@ -98,6 +101,8 @@ public class SlicingView extends View{
 		squareTwo.getPaint().setColor(Color.BLUE);
 		gameobjs.add(square);
 		gameobjs.add(squareTwo);
+		
+		m.levelNumber = levelNum;
 		
 		//Initialize the Timer
 		m.t.start();
@@ -142,10 +147,10 @@ public class SlicingView extends View{
 	    	invalidate();
 	    }
 	    
-	    //if m.misses reaches 5 LOSE GAME
-	    if (m.misses > 5){
+	    /*if m.misses reaches 5 LOSE GAME - to be implemented
+	    if (m.misses >= 5){
 	    	
-	    }
+	    }*/
 	    
 	    invalidate();
 	}
@@ -254,11 +259,18 @@ public class SlicingView extends View{
 				}
 			}
 			
-			//CHECK FOR LEVEL 1
-			if(m.scoreNumber >= 200 && m.t.getElapsedTime() < 30){
+			if(levelNum == 4){
 				m.showScoreScreen();
 			}
-			if(m.scoreNumber < 200 && m.t.getElapsedTime() >= 30){
+			//CHECK FOR LEVEL 1
+			if(m.scoreNumber >= levelScores[levelNum] && m.t.getElapsedTime() < levelTimes[levelNum]){
+				levelNum++;
+				m.levelNumber = levelNum;
+				
+				//m.showScoreScreen();
+			}
+			
+			if(m.scoreNumber < levelScores[levelNum] && m.t.getElapsedTime() >= levelTimes[levelNum]){
 				sp.play(TRMB_ID, 0.5f, 0.5f, 0, 0, 1);
 				m.scoreNumber = 0;
 				//Save the three lines below for further testing purposes //

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 public class ScoreScreenActivity extends Activity {
 
-
+	public static final int MenuActivity_ID = 3;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.score);
@@ -26,16 +26,13 @@ public class ScoreScreenActivity extends Activity {
 	}     
 	
     public void onMainMenuClick(View view){
-    	//updateScore();
-    	//updateTime();
-    	Intent i = new Intent();
-    	
-    	// put the number of clicks into the Intent
-    	//i.putExtra(“NUM_CLICKS", num_clicks);
-    	setResult(RESULT_OK, i);
-    	// ends this Activity
-    	finish();
-
+ 	    // create an Intent using the current Activity 
+	    // and the Class to be created
+ 	    Intent i = new Intent(this, MenuActivity.class);
+ 
+ 	    // pass the Intent to the Activity, 
+ 	    // using the specified request code
+ 	    startActivityForResult(i, MenuActivity_ID);
     }
 	
 }

@@ -19,6 +19,7 @@ public class MainActivity extends Activity {
 	public int hits = 0;
 	public int misses = 0;
 	public int scoreNumber;
+	public int levelNumber;
 	public String bgFile;
 	public Timer t = new Timer();
 	public Timer playTimer = new Timer();
