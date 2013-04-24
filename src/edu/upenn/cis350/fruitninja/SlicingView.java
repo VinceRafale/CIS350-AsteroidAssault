@@ -70,6 +70,8 @@ public class SlicingView extends View{
 	public int levelNum = 0;
 	public int[] levelScores = {100, 150, 250, 350, 400};
 	public int[] levelTimes = {30, 40, 80, 120, 200};
+	public Bitmap[] pictures = new Bitmap[60];
+	public Bitmap[] explosions = new Bitmap[35];
 	
 	//Contains all game objects 
 	private ArrayList<GameObject> gameobjs;
@@ -93,9 +95,38 @@ public class SlicingView extends View{
 		int xSpeed1 = (int)(speedMult*Math.random()*-20);
 		int ySpeed1 = (int)(speedMult*Math.random()*50+15);
 		
+		BitmapFactory.Options o=new BitmapFactory.Options();
+		o.inSampleSize = 8;
+		o.inDither=false;                     //Disable Dithering mode
+		
+		String mDrawableName = "asteroidtest";
+		int resID = getResources().getIdentifier(mDrawableName , "drawable", getContext().getPackageName());
+		//Decode all the asteroid frames
+		for (int i=1; i<=pictures.length; i++){
+			if (i<10){
+				mDrawableName = "asteroidtest0" + i;
+				resID = getResources().getIdentifier(mDrawableName , "drawable", getContext().getPackageName());
+				pictures[i-1] = BitmapFactory.decodeResource(getResources(), resID, o);
+			}
+			else{
+				mDrawableName = "asteroidtest" + i;
+				resID = getResources().getIdentifier(mDrawableName , "drawable", getContext().getPackageName());
+				pictures[i-1] = BitmapFactory.decodeResource(getResources(), resID, o);
+			}
+			System.out.println(mDrawableName);
+		}
+		//Decode all explosion frames
+		for (int i=16; i<16+explosions.length; i++){
+			mDrawableName = "explosion0" + i;
+			resID = getResources().getIdentifier(mDrawableName , "drawable", getContext().getPackageName());
+			explosions[i-16] = BitmapFactory.decodeResource(getResources(), resID, o);
+			System.out.println(mDrawableName);
+		}
 		gameobjs = new ArrayList<GameObject>();
 		GameObject square = new GameObject(0, 100, (int)(50*sizeMult), (int)(50*sizeMult), 7, 10, this);
 		GameObject squareTwo = new GameObject(xEnter1, 540, (int)(100*sizeMult), (int)(100*sizeMult), xSpeed1, ySpeed1, this);
+		square.setPicsExps(pictures, explosions);
+		squareTwo.setPicsExps(pictures, explosions);
 		
 		square.getPaint().setColor(Color.RED);
 		squareTwo.getPaint().setColor(Color.BLUE);
@@ -118,18 +149,33 @@ public class SlicingView extends View{
         if(m.t.getElapsedTime() % 2.5 < .15){
         	newGameObject();
         }
-        
+        /*
 		for(GameObject go : gameobjs){
+			if(go.isExploded()){
+				gameobjs.remove(go);
+			}
 			//Decrease Y speed by the amount of gravity
 			go.setSpeedY(go.getSpeedY()-gravity);
 			go.draw(canvas);
-		}
+		}*/
 		
-		//Object goes off screen --> remove it, increase number of misses
+		
 		for (int i = 0; i < gameobjs.size(); i++){
+			GameObject go = gameobjs.get(i);
+			if(go.isExploded()){
+				gameobjs.remove(go);
+				i--;
+				continue;
+			}
+			//Decrease Y speed by the amount of gravity
+			go.setSpeedY(go.getSpeedY()-gravity);
+			go.draw(canvas);
+			
+			//Object goes off screen --> remove it, increase number of misses
 			if(gameobjs.get(i).x < -100 || gameobjs.get(i).x > 1600 || gameobjs.get(i).y < -100 
 					|| gameobjs.get(i).y > 800){
 				gameobjs.remove(gameobjs.get(i));
+				i--;
 				m.misses++;
 			}
 		}
@@ -242,6 +288,7 @@ public class SlicingView extends View{
 			int y = (int)e.getY();
 			p.lineTo(x,y);
 			
+			
 			//Tests every GameObject in the gameobjs list
 			//If intersection is detected, removes that GameObject from the list
 			for (int i = 0; i < gameobjs.size(); i++){
@@ -251,8 +298,8 @@ public class SlicingView extends View{
 					
 					ScoreView sView = (ScoreView) m.findViewById(R.id.ScoreView);
 					sView.invalidate();
-					gameobjs.remove(gameobjs.get(i));
-					i--;
+					//gameobjs.remove(gameobjs.get(i));
+					//i--;
 					sp.play(EXP_ID, 0.5f, 0.5f, 0, 0, 1);
 					newGameObject();
 					
@@ -260,7 +307,7 @@ public class SlicingView extends View{
 			}
 			
 			if(levelNum == 4){
-				m.showScoreScreen();
+				//m.showScoreScreen();
 			}
 			//CHECK FOR LEVEL 1
 			if(m.scoreNumber >= levelScores[levelNum] && m.t.getElapsedTime() < levelTimes[levelNum]){
@@ -277,7 +324,7 @@ public class SlicingView extends View{
 				//incSize();
 				//decSpeed();
 				//m.t.start();
-				m.showScoreScreen();
+				//m.showScoreScreen();
 			}
 			
 			
@@ -304,8 +351,6 @@ public class SlicingView extends View{
 			
 			xSpeed = (int)(speedMult*Math.random()*15 + 10);
 			ySpeed = (int)(speedMult*Math.random()*20 + (yPos/45));
-			
-			
 			
 			square = new GameObject(0, yPos, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed, this);
 		}
@@ -345,11 +390,9 @@ public class SlicingView extends View{
 			square = new GameObject(xPos, 550, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed, this);
 		}
 		
-		int[] colors = {Color.RED, Color.GREEN, Color.YELLOW, Color.MAGENTA, Color.DKGRAY};
-		int color = (int) Math.floor(Math.random()*5);
-		square.getPaint().setColor(colors[color]);
-		
+		square.setPicsExps(pictures, explosions);
 		gameobjs.add(square);
+		
 		return square;
 	}
 }

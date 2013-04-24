@@ -3,12 +3,15 @@ package edu.upenn.cis350.fruitninja;
 import java.io.File;
 import java.util.Arrays;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Chronometer;
 
 public class MainActivity extends Activity {
 	
@@ -35,6 +38,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new AsyncTimerTask().execute();
         setContentView(R.layout.main);
     }
 
@@ -90,8 +94,6 @@ public class MainActivity extends Activity {
     	updateTime();
     	Intent i = new Intent();
     	
-    	// put the number of clicks into the Intent
-    	//i.putExtra(“NUM_CLICKS", num_clicks);
     	setResult(RESULT_OK, i);
     	// ends this Activity
     	finish(); 
@@ -163,4 +165,24 @@ public class MainActivity extends Activity {
     public void setThickness(int thick){
     	thickness = thick;
     }
+    
+    //Timer
+    class AsyncTimerTask extends AsyncTask<String, Void, String> {
+    	
+    	protected String doInBackground(String... inputs){
+    		String reply = "Loading";
+    		return reply;
+    		
+    	}
+    	
+    	protected void onPostExecute(String result){
+    		Chronometer timer = (Chronometer) findViewById(R.id.timertext);
+    		timer.setTextColor(Color.RED);
+    		timer.start();
+    	}
+    	
+    }
+    
 }
+
+

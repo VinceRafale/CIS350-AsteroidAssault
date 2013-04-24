@@ -16,6 +16,10 @@ public class GameObject extends ShapeDrawable {
 	protected int width;  //Width
 	protected int height; //Height
 	protected Bitmap picture;
+	protected Bitmap[] pictures;
+	protected Bitmap[] explosions;
+	protected int index;
+	protected boolean exploded;
 	
 	public GameObject(int x, int y, int width, int height, int xspeed, int yspeed, SlicingView sv){
 		this.x = x;
@@ -24,29 +28,67 @@ public class GameObject extends ShapeDrawable {
 		this.yspeed = yspeed;
 		this.width = width;
 		this.height = height;
+		index = (int)(Math.random()*120);
 		this.setBounds(x, y, x + width, y + height);
-		picture = BitmapFactory.decodeResource(sv.getResources(), R.drawable.asteroid);
+		pictures = new Bitmap[60];
+		explosions = new Bitmap[35];
+		exploded = false;
 	}
 	
 	
 	//Changes x and y coordinates by adding speed on every draw call
 	@Override
 	public void draw(Canvas canvas) {
-		x+=xspeed;
-		y-=yspeed;
-		this.setBounds(x,y,x+width,y+height);
-		//canvas.drawBitmap(Bitmap , matrix, paint)
-		Rect boundRect = new Rect(x,y,x+width,y+height);
-		canvas.drawBitmap(picture, null, boundRect, this.getPaint());
+		
+		if(exploded){
+			System.out.println(index);
+			this.setBounds(x,y,x+width,y+height);
+			Rect boundRect = new Rect(x,y,x+width,y+height);
+			canvas.drawBitmap(explosions[index/2], null, boundRect, this.getPaint());
+			if(index < 35) {index++;}
+
+		}
+		else{
+			x+=xspeed;
+			y-=yspeed;
+			this.setBounds(x,y,x+width,y+height);
+			//canvas.drawBitmap(Bitmap , matrix, paint)
+			Rect boundRect = new Rect(x,y,x+width,y+height);
+			//canvas.drawBitmap(picture, null, boundRect, this.getPaint());
+			canvas.drawBitmap(pictures[index/2], null, boundRect, this.getPaint());
+			index++;
+			if(index >= 120){index=0;}
+		}
+		//System.out.println(index);
 		//super.draw(canvas);
 	}
 	
 	//Test intersection between an input point and the object
 	public boolean intersect(int pointx, int pointy){
-		return (pointx >= x && pointx <= x+width && pointy >= y && pointy <= y+height );
+		if(!exploded){
+			if(pointx >= x && pointx <= x+width && pointy >= y && pointy <= y+height ){
+				exploded = true;
+				index = 0;
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public void setPicsExps(Bitmap[] pics, Bitmap[] exps){
+		pictures = pics;
+		explosions = exps;
 	}
 
-
+	public boolean isExploded(){
+		return(index >= 35 && exploded);
+	}
+	
 	//Setters for the object fields
 	public void setX(int x){
 		this.x = x;
