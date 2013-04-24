@@ -124,6 +124,7 @@ public final class R {
         public static final int SlicingView=0x7f070003;
         public static final int highscoreTitle=0x7f070001;
         public static final int highscores=0x7f070002;
+<<<<<<< HEAD
         public static final int hits=0x7f07000a;
         public static final int hitsPercent=0x7f07000b;
         public static final int leaderboard=0x7f070008;
@@ -133,6 +134,16 @@ public final class R {
         public static final int playTime=0x7f070009;
         public static final int start=0x7f070007;
         public static final int timertext=0x7f070004;
+=======
+        public static final int hits=0x7f070009;
+        public static final int hitsPercent=0x7f07000a;
+        public static final int leaderboard=0x7f070007;
+        public static final int levelTime=0x7f07000b;
+        public static final int mainMenu=0x7f070000;
+        public static final int menu_settings=0x7f07000c;
+        public static final int playTime=0x7f070008;
+        public static final int start=0x7f070006;
+>>>>>>> 70ed36a7e0df650c3e501efe762036edcfecc363
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

@@ -70,8 +70,12 @@ public class SlicingView extends View{
 	public int levelNum = 0;
 	public int[] levelScores = {100, 150, 250, 350, 400};
 	public int[] levelTimes = {30, 40, 80, 120, 200};
+<<<<<<< HEAD
 	public Bitmap[] pictures = new Bitmap[60];
 	public Bitmap[] explosions = new Bitmap[35];
+=======
+	public double[] levelDifficulty = {.6, .7, .8, .9, 1};
+>>>>>>> 70ed36a7e0df650c3e501efe762036edcfecc363
 	
 	//Contains all game objects 
 	private ArrayList<GameObject> gameobjs;
@@ -155,7 +159,7 @@ public class SlicingView extends View{
 				gameobjs.remove(go);
 			}
 			//Decrease Y speed by the amount of gravity
-			go.setSpeedY(go.getSpeedY()-gravity);
+			go.setSpeedY(go.getSpeedY()-(gravity*levelDifficulty[levelNum]));
 			go.draw(canvas);
 		}*/
 		
@@ -294,7 +298,16 @@ public class SlicingView extends View{
 			for (int i = 0; i < gameobjs.size(); i++){
 				if(gameobjs.get(i).intersect(x, y)){
 					m.hits++;
-					m.scoreNumber += 10;		//score increases by 10 for every target hit
+					
+					if(gameobjs.get(i).width < 33 * speedMult){
+						m.scoreNumber += 25;		//score increases by 10 for every target hit
+					}
+					else if(gameobjs.get(i).width >= 33 * speedMult && gameobjs.get(i).width < 45 * speedMult){
+						m.scoreNumber += 15;
+					}
+					else{
+						m.scoreNumber += 10;
+					}
 					
 					ScoreView sView = (ScoreView) m.findViewById(R.id.ScoreView);
 					sView.invalidate();
@@ -309,12 +322,12 @@ public class SlicingView extends View{
 			if(levelNum == 4){
 				//m.showScoreScreen();
 			}
-			//CHECK FOR LEVEL 1
+			//CHECK FOR LEVEL COMPLETION
 			if(m.scoreNumber >= levelScores[levelNum] && m.t.getElapsedTime() < levelTimes[levelNum]){
 				levelNum++;
 				m.levelNumber = levelNum;
 				
-				//m.showScoreScreen();
+				m.showScoreScreen();
 			}
 			
 			if(m.scoreNumber < levelScores[levelNum] && m.t.getElapsedTime() >= levelTimes[levelNum]){
@@ -350,7 +363,7 @@ public class SlicingView extends View{
 			int yPos = (int) (550 * Math.random());
 			
 			xSpeed = (int)(speedMult*Math.random()*15 + 10);
-			ySpeed = (int)(speedMult*Math.random()*20 + (yPos/45));
+			ySpeed = (int)(speedMult*Math.random()*20 + (yPos/45)*levelDifficulty[levelNum]);
 			
 			square = new GameObject(0, yPos, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed, this);
 		}
@@ -364,7 +377,7 @@ public class SlicingView extends View{
 			else{
 				xSpeed = (int)(speedMult*Math.random()*15);
 			}
-			ySpeed = (int)(speedMult*Math.random()*1);
+			ySpeed = (int)(speedMult*Math.random()*1*levelDifficulty[levelNum]);
 			square = new GameObject(xPos, 0, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, -ySpeed, this);
 		}
 		
@@ -372,7 +385,7 @@ public class SlicingView extends View{
 		else if(random < .8 && random >= .5){
 			int yPos = (int) (550 * Math.random());
 			xSpeed = (int)(speedMult*Math.random()*-10 - 2);
-			ySpeed = (int)(speedMult*Math.random()*15 + (yPos/39));
+			ySpeed = (int)(speedMult*Math.random()*15 + (yPos/39)*levelDifficulty[levelNum]);
 			
 			square = new GameObject(1200, yPos, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed, this);
 		}
@@ -386,7 +399,7 @@ public class SlicingView extends View{
 			else{
 				xSpeed = (int)(speedMult*Math.random()*5);
 			}
-			ySpeed = (int)(speedMult*Math.random()*10 + (1.2-speedMult)*40);
+			ySpeed = (int)(speedMult*Math.random()*10 + (1.2-speedMult)*40*levelDifficulty[levelNum]);
 			square = new GameObject(xPos, 550, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed, this);
 		}
 		

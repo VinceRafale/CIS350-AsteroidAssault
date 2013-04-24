@@ -1,9 +1,7 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
 <edu.upenn.cis350.fruitninja.SlicingView android:id="@+id/SlicingView"
     android:layout_width="fill_parent"
@@ -16,7 +14,7 @@
     android:background="@drawable/scoreviewbg">
 <Chronometer android:layout_width="250px" android:layout_height="wrap_content" android:id="@+id/timertext"/>
 <edu.upenn.cis350.fruitninja.ScoreView android:id="@+id/ScoreView"
-    android:layout_width="325px"
+    android:layout_width="350px"
     android:layout_height="wrap_content"/>
 <Button android:id="@+id/Clear"
     android:layout_width="wrap_content" 
