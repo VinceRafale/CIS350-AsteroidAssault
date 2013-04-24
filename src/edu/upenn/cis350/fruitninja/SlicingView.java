@@ -70,12 +70,9 @@ public class SlicingView extends View{
 	public int levelNum = 0;
 	public int[] levelScores = {100, 150, 250, 350, 400};
 	public int[] levelTimes = {30, 40, 80, 120, 200};
-<<<<<<< HEAD
 	public Bitmap[] pictures = new Bitmap[60];
 	public Bitmap[] explosions = new Bitmap[35];
-=======
 	public double[] levelDifficulty = {.6, .7, .8, .9, 1};
->>>>>>> 70ed36a7e0df650c3e501efe762036edcfecc363
 	
 	//Contains all game objects 
 	private ArrayList<GameObject> gameobjs;
