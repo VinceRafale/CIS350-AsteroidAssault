@@ -26,6 +26,7 @@ public class MainActivity extends Activity {
 	public String bgFile;
 	public Timer t = new Timer();
 	public Timer playTimer = new Timer();
+	//public boolean newLevel = false;
 	
 	protected String getBgFile(){
 		return new File(getFilesDir(), "spaceBg.jpg").getAbsolutePath();
@@ -39,7 +40,11 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new AsyncTimerTask().execute();
+       // Bundle extras = getIntent().getExtras();
+		//passedLevel = (Boolean)extras.get("NEWLEVEL");
         setContentView(R.layout.main);
+        
+        
     }
 
     @Override
@@ -145,7 +150,7 @@ public class MainActivity extends Activity {
  	   editor.commit(); 
     }
     
-    public void showScoreScreen() {
+    public void showScoreScreen(boolean passedLevel) {
     	updateTime();
  	    // create an Intent using the current Activity 
 	    // and the Class to be created
@@ -153,6 +158,7 @@ public class MainActivity extends Activity {
  	    i.putExtra("PLAYTIME", playTimer.getElapsedTime());
  	    i.putExtra("HITS", hits);
  	    i.putExtra("MISSES", misses);
+ 	    i.putExtra("PASSED", passedLevel);
  	    // pass the Intent to the Activity, 
  	    // using the specified request code
  	    startActivityForResult(i, ScoreScreenActivity_ID);

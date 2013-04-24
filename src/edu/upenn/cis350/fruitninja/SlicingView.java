@@ -45,6 +45,7 @@ public class SlicingView extends View{
 		AssetFileDescriptor afd2 = m.getAssets().openFd("sadTrombone.wav");
 		EXP_ID = sp.load(afd, 0);
 		TRMB_ID = sp.load(afd2, 0);
+		initPics();
 		init();
 	}
 
@@ -57,6 +58,7 @@ public class SlicingView extends View{
 		AssetFileDescriptor afd2 = m.getAssets().openFd("sadTrombone.wav");
 		EXP_ID = sp.load(afd, 0);
 		TRMB_ID = sp.load(afd2, 0);
+		initPics();
 		init();
 	}
 	
@@ -69,8 +71,9 @@ public class SlicingView extends View{
 	private SoundPool sp;
 	public int levelNum = 0;
 	public int[] levelScores = {100, 150, 250, 350, 400};
-	public int[] levelTimes = {30, 40, 80, 120, 200};
+	public int[] levelTimes = {45, 60, 80, 120, 200};
 	public Bitmap[] pictures = new Bitmap[60];
+	public Bitmap[] brownpictures = new Bitmap[60];
 	public Bitmap[] explosions = new Bitmap[35];
 	public double[] levelDifficulty = {.6, .7, .8, .9, 1};
 	
@@ -85,17 +88,7 @@ public class SlicingView extends View{
 	
 	int c = Color.RED;
 	
-	protected void init(){
-		gravity = .5;
-		clear = false;
-		strokes = new ArrayList<Path>();
-		strokesPaint = new ArrayList<Paint>();
-		
-		int xEnter1 = (int)(Math.random()*1200);
-		int yEnter1 = (int)(Math.random()*550);
-		int xSpeed1 = (int)(speedMult*Math.random()*-20);
-		int ySpeed1 = (int)(speedMult*Math.random()*50+15);
-		
+	protected void initPics(){
 		BitmapFactory.Options o=new BitmapFactory.Options();
 		o.inSampleSize = 8;
 		o.inDither=false;                     //Disable Dithering mode
@@ -114,20 +107,36 @@ public class SlicingView extends View{
 				resID = getResources().getIdentifier(mDrawableName , "drawable", getContext().getPackageName());
 				pictures[i-1] = BitmapFactory.decodeResource(getResources(), resID, o);
 			}
+			mDrawableName = "asteroidbrown" + i;
+			resID = getResources().getIdentifier(mDrawableName , "drawable", getContext().getPackageName());
+			brownpictures[i-1] = BitmapFactory.decodeResource(getResources(), resID, o);
 			System.out.println(mDrawableName);
 		}
-		//Decode all explosion frames
+		//Decode all explosion frames - brown ones not in yet
 		for (int i=16; i<16+explosions.length; i++){
 			mDrawableName = "explosion0" + i;
 			resID = getResources().getIdentifier(mDrawableName , "drawable", getContext().getPackageName());
 			explosions[i-16] = BitmapFactory.decodeResource(getResources(), resID, o);
 			System.out.println(mDrawableName);
 		}
+	}
+	
+	protected void init(){
+		gravity = .5;
+		clear = false;
+		strokes = new ArrayList<Path>();
+		strokesPaint = new ArrayList<Paint>();
+		
+		int xEnter1 = (int)(Math.random()*1200);
+		int yEnter1 = (int)(Math.random()*550);
+		int xSpeed1 = (int)(speedMult*Math.random()*-20);
+		int ySpeed1 = (int)(speedMult*Math.random()*50+15);
+		
 		gameobjs = new ArrayList<GameObject>();
 		GameObject square = new GameObject(0, 100, (int)(50*sizeMult), (int)(50*sizeMult), 7, 10, this);
 		GameObject squareTwo = new GameObject(xEnter1, 540, (int)(100*sizeMult), (int)(100*sizeMult), xSpeed1, ySpeed1, this);
-		square.setPicsExps(pictures, explosions);
-		squareTwo.setPicsExps(pictures, explosions);
+		square.setPicsExps(pickPictures(), explosions);
+		squareTwo.setPicsExps(pickPictures(), explosions);
 		
 		square.getPaint().setColor(Color.RED);
 		squareTwo.getPaint().setColor(Color.BLUE);
@@ -147,19 +156,9 @@ public class SlicingView extends View{
         canvas.drawBitmap(mBitmapFromSdcard, 0, 0, null);
 		
         //newGameObject();
-        if(m.t.getElapsedTime() % 2.5 < .15){
+        if(m.t.getElapsedTime() % 2.5 < .025){
         	newGameObject();
-        }
-        /*
-		for(GameObject go : gameobjs){
-			if(go.isExploded()){
-				gameobjs.remove(go);
-			}
-			//Decrease Y speed by the amount of gravity
-			go.setSpeedY(go.getSpeedY()-(gravity*levelDifficulty[levelNum]));
-			go.draw(canvas);
-		}*/
-		
+        }		
 		
 		for (int i = 0; i < gameobjs.size(); i++){
 			GameObject go = gameobjs.get(i);
@@ -178,6 +177,7 @@ public class SlicingView extends View{
 				gameobjs.remove(gameobjs.get(i));
 				i--;
 				m.misses++;
+				//newGameObject();
 			}
 		}
 		
@@ -305,37 +305,46 @@ public class SlicingView extends View{
 					else{
 						m.scoreNumber += 10;
 					}
-					
+
 					ScoreView sView = (ScoreView) m.findViewById(R.id.ScoreView);
 					sView.invalidate();
-					//gameobjs.remove(gameobjs.get(i));
-					//i--;
 					sp.play(EXP_ID, 0.5f, 0.5f, 0, 0, 1);
-					newGameObject();
+					//newGameObject();
 					
 				}
 			}
 			
-			if(levelNum == 4){
-				//m.showScoreScreen();
-			}
 			//CHECK FOR LEVEL COMPLETION
+			if(m.t.getElapsedTime() >= levelTimes[levelNum]){
+				//Win level
+				if(m.scoreNumber >= levelScores[levelNum]){
+					levelNum++;
+					m.levelNumber = levelNum;
+					m.showScoreScreen(true);
+					
+				}
+				//Lose level
+				else{
+					sp.play(TRMB_ID, 0.5f, 0.5f, 0, 0, 1);
+					m.scoreNumber = 0;
+					incSize();
+					m.showScoreScreen(false);
+				}
+				//after exiting score screen, reinitializes the level with the updated level number
+				init();
+			}
+			/*
 			if(m.scoreNumber >= levelScores[levelNum] && m.t.getElapsedTime() < levelTimes[levelNum]){
 				levelNum++;
 				m.levelNumber = levelNum;
-				
-				m.showScoreScreen();
+				m.showScoreScreen(true);	
 			}
 			
 			if(m.scoreNumber < levelScores[levelNum] && m.t.getElapsedTime() >= levelTimes[levelNum]){
 				sp.play(TRMB_ID, 0.5f, 0.5f, 0, 0, 1);
 				m.scoreNumber = 0;
-				//Save the three lines below for further testing purposes //
-				//incSize();
-				//decSpeed();
-				//m.t.start();
-				//m.showScoreScreen();
-			}
+				m.showScoreScreen(false);
+			}*/
 			
 			
 			invalidate();
@@ -400,10 +409,21 @@ public class SlicingView extends View{
 			square = new GameObject(xPos, 550, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed, this);
 		}
 		
-		square.setPicsExps(pictures, explosions);
+		square.setPicsExps(pickPictures(), explosions);
 		gameobjs.add(square);
 		
 		return square;
 	}
+	
+	//Randomly returns one of the available types of asteroids 
+	protected Bitmap[] pickPictures(){
+		if(Math.random() < 0.5){
+			return pictures;
+		}
+		else{
+			return brownpictures;
+		}
+	}
+	
 }
 
