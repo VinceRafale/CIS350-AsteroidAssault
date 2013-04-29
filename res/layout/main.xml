@@ -5,7 +5,7 @@
 
 <edu.upenn.cis350.fruitninja.SlicingView android:id="@+id/SlicingView"
     android:layout_width="fill_parent"
-    android:layout_height="550px" />
+    android:layout_height="650px" />
 
 <LinearLayout 
     android:orientation="horizontal"
