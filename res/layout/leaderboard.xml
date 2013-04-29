@@ -5,6 +5,7 @@
     android:layout_height="fill_parent"
     android:layout_centerInParent="true"
     android:textColor="#FFFFFF">
+    
  <Button android:id="@+id/mainMenu"
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 

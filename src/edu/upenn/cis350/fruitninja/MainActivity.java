@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
     	ScoreView sView = (ScoreView)findViewById(R.id.ScoreView);
 
     	pbview.clear = true;
-    	scoreNumber = 000;
+    	//scoreNumber = 000;
     	pbview.invalidate();
     	sView.invalidate();
     }

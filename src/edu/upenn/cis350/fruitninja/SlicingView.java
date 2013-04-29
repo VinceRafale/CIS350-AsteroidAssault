@@ -84,7 +84,7 @@ public class SlicingView extends View{
 	public double speedMult = 1.0;
 	
 	//Multiplier for size - used in difficulty settings
-	public double sizeMult = 2.5;
+	public double sizeMult = 3;
 	
 	int c = Color.RED;
 	
@@ -315,7 +315,9 @@ public class SlicingView extends View{
 			}
 			
 			//CHECK FOR LEVEL COMPLETION
-			if(m.t.getElapsedTime() >= levelTimes[levelNum]){
+			
+			
+			/*if(m.t.getElapsedTime() >= levelTimes[levelNum]){
 				//Win level
 				if(m.scoreNumber >= levelScores[levelNum]){
 					levelNum++;
@@ -333,18 +335,25 @@ public class SlicingView extends View{
 				//after exiting score screen, reinitializes the level with the updated level number
 				init();
 			}
-			/*
+			*/
+			
+			
 			if(m.scoreNumber >= levelScores[levelNum] && m.t.getElapsedTime() < levelTimes[levelNum]){
 				levelNum++;
 				m.levelNumber = levelNum;
-				m.showScoreScreen(true);	
+				m.showScoreScreen(true);
+				init();
 			}
 			
 			if(m.scoreNumber < levelScores[levelNum] && m.t.getElapsedTime() >= levelTimes[levelNum]){
 				sp.play(TRMB_ID, 0.5f, 0.5f, 0, 0, 1);
 				m.scoreNumber = 0;
+				incSize();
 				m.showScoreScreen(false);
-			}*/
+				init();
+			}
+			
+			
 			
 			
 			invalidate();
@@ -362,14 +371,14 @@ public class SlicingView extends View{
 		GameObject square;
 		int xSpeed = 1;
 		int ySpeed = 1;
-		int size = (int)(Math.random()*50+25);
+		int size = (int)(Math.random()*50+40);
 		
 		//Left Side
 		if(random < .3){
 			int yPos = (int) (550 * Math.random());
 			
-			xSpeed = (int)(speedMult*Math.random()*15 + 10);
-			ySpeed = (int)(speedMult*Math.random()*20 + (yPos/45)*levelDifficulty[levelNum]);
+			xSpeed = (int)(speedMult*Math.random()*15 + 15);
+			ySpeed = (int)(speedMult*Math.random()*10 + (yPos/45)*levelDifficulty[levelNum] + 3);
 			
 			square = new GameObject(0, yPos, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed, this);
 		}
@@ -390,8 +399,8 @@ public class SlicingView extends View{
 		//Right Side
 		else if(random < .8 && random >= .5){
 			int yPos = (int) (550 * Math.random());
-			xSpeed = (int)(speedMult*Math.random()*-10 - 2);
-			ySpeed = (int)(speedMult*Math.random()*15 + (yPos/39)*levelDifficulty[levelNum]);
+			xSpeed = (int)(speedMult*Math.random()*-10 - 10);
+			ySpeed = (int)(speedMult*Math.random()*10 + (yPos/45)*levelDifficulty[levelNum] + 3);
 			
 			square = new GameObject(1200, yPos, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed, this);
 		}
@@ -400,10 +409,10 @@ public class SlicingView extends View{
 		else{
 			int xPos = (int)(Math.random()*1200);
 			if(xPos > 600){
-				xSpeed = (int)(speedMult*Math.random()*-5);
+				xSpeed = (int)(speedMult*Math.random()*-7);
 			}
 			else{
-				xSpeed = (int)(speedMult*Math.random()*5);
+				xSpeed = (int)(speedMult*Math.random()*7);
 			}
 			ySpeed = (int)(speedMult*Math.random()*10 + (1.2-speedMult)*40*levelDifficulty[levelNum]);
 			square = new GameObject(xPos, 550, (int)(size*sizeMult), (int)(size*sizeMult), xSpeed, ySpeed, this);

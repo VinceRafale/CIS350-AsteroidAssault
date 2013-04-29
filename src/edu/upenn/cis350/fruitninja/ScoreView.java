@@ -64,7 +64,7 @@ public class ScoreView extends View{
 		int randomIndex = (int) (Math.random()*visualfeedback.length);
 		
 		canvas.drawText(visualfeedback[randomIndex], 160, 30, encouragement);
-		canvas.drawText("Score: " + scoreValue + "( Level " + levNum + " )", 160, 60, scoreLabel);				
+		canvas.drawText("Score: " + scoreValue + " ( "+ levNum + " )", 160, 60, scoreLabel);				
 		//canvas.drawText("Score: " + m.t.getElapsedTime(), 160, 60, scoreLabel);		
 	}
 	
