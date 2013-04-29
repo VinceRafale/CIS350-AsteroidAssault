@@ -70,8 +70,8 @@ public class SlicingView extends View{
 	public ArrayList<Paint> strokesPaint;
 	private SoundPool sp;
 	public int levelNum = 0;
-	public int[] levelScores = {100, 150, 250, 350, 400};
-	public int[] levelTimes = {45, 60, 80, 120, 200};
+	public int[] levelScores = {100, 150, 250, 350, 400, 500, 600, 700, 800, 1000};
+	public int[] levelTimes = {45, 60, 80, 120, 200, 250, 290, 320, 350, 360};
 	public Bitmap[] pictures = new Bitmap[60];
 	public Bitmap[] brownpictures = new Bitmap[60];
 	public Bitmap[] explosions = new Bitmap[35];
@@ -296,10 +296,10 @@ public class SlicingView extends View{
 				if(gameobjs.get(i).intersect(x, y)){
 					m.hits++;
 					
-					if(gameobjs.get(i).width < 33 * speedMult){
+					if(gameobjs.get(i).width < 33 * sizeMult){
 						m.scoreNumber += 25;		//score increases by 10 for every target hit
 					}
-					else if(gameobjs.get(i).width >= 33 * speedMult && gameobjs.get(i).width < 45 * speedMult){
+					else if(gameobjs.get(i).width >= 33 * sizeMult && gameobjs.get(i).width < 45 * sizeMult){
 						m.scoreNumber += 15;
 					}
 					else{
