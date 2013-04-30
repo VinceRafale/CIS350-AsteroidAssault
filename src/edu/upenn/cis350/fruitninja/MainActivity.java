@@ -5,12 +5,16 @@ import java.util.Arrays;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Chronometer;
 
 public class MainActivity extends Activity {
@@ -26,6 +30,9 @@ public class MainActivity extends Activity {
 	public String bgFile;
 	public Timer t = new Timer();
 	public Timer playTimer = new Timer();
+	public Bitmap[] pictures = new Bitmap[60];
+	public Bitmap[] brownpictures = new Bitmap[60];
+	public Bitmap[] explosions = new Bitmap[35];
 	//public boolean newLevel = false;
 	
 	protected String getBgFile(){
@@ -39,11 +46,35 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new AsyncTimerTask().execute();
+       // new AsyncTimerTask().execute();
        // Bundle extras = getIntent().getExtras();
 		//passedLevel = (Boolean)extras.get("NEWLEVEL");
-        setContentView(R.layout.main);
-        
+        setContentView(R.layout.load);
+        Button loading = (Button)findViewById(R.id.loading);
+        loading.setEnabled(false);
+       // initPics();
+   
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                    initPics();
+                    return null;
+                } 
+
+                @Override
+                public void onPostExecute(Void result){
+                   /* handler.post(new Runnable(){
+                         @Override
+                         public void run(){
+                             setContentView(R.layout.main);
+                         }
+                    });*/
+                	Button loading = (Button)findViewById(R.id.loading);
+                	loading.setEnabled(true);
+                    loading.setText("Tap to continue");
+                }
+           }.execute();
         
     }
 
@@ -54,10 +85,16 @@ public class MainActivity extends Activity {
         return true;
     }
     
+    public void onContinueClick(View view){
+    	new AsyncTimerTask().execute();
+    	setContentView(R.layout.main);
+    	
+    }
+    
     public void onClearButtonClick(View view){
     	SlicingView pbview = (SlicingView)findViewById(R.id.SlicingView);
     	ScoreView sView = (ScoreView)findViewById(R.id.ScoreView);
-
+    
     	pbview.clear = true;
     	//scoreNumber = 000;
     	pbview.invalidate();
@@ -188,6 +225,39 @@ public class MainActivity extends Activity {
     	}
     	
     }
+    
+    protected void initPics(){
+		BitmapFactory.Options o=new BitmapFactory.Options();
+		o.inSampleSize = 8;
+		o.inDither=false;                     //Disable Dithering mode
+		
+		String mDrawableName = "asteroidtest";
+		int resID = getResources().getIdentifier(mDrawableName , "drawable", this.getPackageName());
+		//Decode all the asteroid frames
+		for (int i=1; i<=pictures.length; i++){
+			if (i<10){
+				mDrawableName = "asteroidtest0" + i;
+				resID = getResources().getIdentifier(mDrawableName , "drawable", this.getPackageName());
+				pictures[i-1] = BitmapFactory.decodeResource(getResources(), resID, o);
+			}
+			else{
+				mDrawableName = "asteroidtest" + i;
+				resID = getResources().getIdentifier(mDrawableName , "drawable", this.getPackageName());
+				pictures[i-1] = BitmapFactory.decodeResource(getResources(), resID, o);
+			}
+			mDrawableName = "asteroidbrown" + i;
+			resID = getResources().getIdentifier(mDrawableName , "drawable", this.getPackageName());
+			brownpictures[i-1] = BitmapFactory.decodeResource(getResources(), resID, o);
+			System.out.println(mDrawableName);
+		}
+		//Decode all explosion frames - brown ones not in yet
+		for (int i=16; i<16+explosions.length; i++){
+			mDrawableName = "explosion0" + i;
+			resID = getResources().getIdentifier(mDrawableName , "drawable", this.getPackageName());
+			explosions[i-16] = BitmapFactory.decodeResource(getResources(), resID, o);
+			System.out.println(mDrawableName);
+		}
+	}
     
 }
 

@@ -176,33 +176,37 @@ public final class R {
         public static final int explosion050=0x7f0200a2;
         public static final int ic_launcher=0x7f0200a3;
         public static final int leaderboard=0x7f0200a4;
-        public static final int menubg=0x7f0200a5;
-        public static final int scoreviewbg=0x7f0200a6;
-        public static final int spacebg=0x7f0200a7;
+        public static final int loadscreenmurphy=0x7f0200a5;
+        public static final int loadscreennomurphy=0x7f0200a6;
+        public static final int menubg=0x7f0200a7;
+        public static final int scoreviewbg=0x7f0200a8;
+        public static final int spacebg=0x7f0200a9;
     }
     public static final class id {
-        public static final int Clear=0x7f070006;
-        public static final int ScoreView=0x7f070005;
-        public static final int SlicingView=0x7f070003;
+        public static final int Clear=0x7f070007;
+        public static final int ScoreView=0x7f070006;
+        public static final int SlicingView=0x7f070004;
         public static final int highscoreTitle=0x7f070001;
         public static final int highscores=0x7f070002;
-        public static final int hits=0x7f07000a;
-        public static final int hitsPercent=0x7f07000b;
-        public static final int leaderboard=0x7f070008;
-        public static final int levelTime=0x7f07000c;
+        public static final int hits=0x7f07000b;
+        public static final int hitsPercent=0x7f07000c;
+        public static final int leaderboard=0x7f070009;
+        public static final int levelTime=0x7f07000d;
+        public static final int loading=0x7f070003;
         public static final int mainMenu=0x7f070000;
-        public static final int menu_settings=0x7f07000e;
-        public static final int nextLevel=0x7f07000d;
-        public static final int playTime=0x7f070009;
-        public static final int start=0x7f070007;
-        public static final int timertext=0x7f070004;
+        public static final int menu_settings=0x7f07000f;
+        public static final int nextLevel=0x7f07000e;
+        public static final int playTime=0x7f07000a;
+        public static final int start=0x7f070008;
+        public static final int timertext=0x7f070005;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int leaderboard=0x7f030001;
-        public static final int main=0x7f030002;
-        public static final int menu=0x7f030003;
-        public static final int score=0x7f030004;
+        public static final int load=0x7f030002;
+        public static final int main=0x7f030003;
+        public static final int menu=0x7f030004;
+        public static final int score=0x7f030005;
     }
     public static final class menu {
         public static final int activity_main=0x7f060000;

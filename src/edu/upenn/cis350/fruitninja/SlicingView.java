@@ -33,6 +33,7 @@ public class SlicingView extends View{
 	
 	public MainActivity m;
 	private final Bitmap mBitmapFromSdcard;
+	private final Bitmap loadScreen;
 	private final int EXP_ID;
 	private final int TRMB_ID;
 	
@@ -40,6 +41,7 @@ public class SlicingView extends View{
 		super(c);
 		m = (MainActivity) c;
 		mBitmapFromSdcard = BitmapFactory.decodeResource(getResources(), R.drawable.spacebg);
+		loadScreen = BitmapFactory.decodeResource(getResources(), R.drawable.loadscreenmurphy);
 		sp = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
 		AssetFileDescriptor afd = m.getAssets().openFd("explosion.wav");
 		AssetFileDescriptor afd2 = m.getAssets().openFd("sadTrombone.wav");
@@ -47,21 +49,28 @@ public class SlicingView extends View{
 		TRMB_ID = sp.load(afd2, 0);
 		initPics();
 		init();
+		loading = false;
 	}
 
 	public SlicingView(Context c, AttributeSet a) throws IOException{
 		super(c, a);
 		m = (MainActivity) c;
 		mBitmapFromSdcard = BitmapFactory.decodeResource(getResources(), R.drawable.spacebg);
+		loadScreen = BitmapFactory.decodeResource(getResources(), R.drawable.loadscreenmurphy);
 		sp = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
 		AssetFileDescriptor afd = m.getAssets().openFd("explosion.wav");
 		AssetFileDescriptor afd2 = m.getAssets().openFd("sadTrombone.wav");
 		EXP_ID = sp.load(afd, 0);
 		TRMB_ID = sp.load(afd2, 0);
-		initPics();
+		pictures = m.pictures;
+		brownpictures = m.brownpictures;
+		explosions = m.explosions;
+		//initPics();
 		init();
+		loading = false;
 	}
 	
+	private boolean loading = true;
 	private double gravity;
 	public boolean clear;
 	public Paint paintBrush;
@@ -89,6 +98,8 @@ public class SlicingView extends View{
 	int c = Color.RED;
 	
 	protected void initPics(){
+		invalidate();
+		postInvalidate();
 		BitmapFactory.Options o=new BitmapFactory.Options();
 		o.inSampleSize = 8;
 		o.inDither=false;                     //Disable Dithering mode
@@ -153,6 +164,11 @@ public class SlicingView extends View{
 	//Draw the view
 	protected void onDraw(Canvas canvas){
 
+		if(loading){
+			canvas.drawBitmap(loadScreen, 0, 0, null);
+			return;
+		}
+		
         canvas.drawBitmap(mBitmapFromSdcard, 0, 0, null);
 		
         //newGameObject();
