@@ -20,6 +20,7 @@
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
     android:text="Spawn"
+    android:background="@drawable/asteroidbutton"
     android:textColor="#FFFFFF"
     android:onClick="onClearButtonClick"/>
 <!-- 
@@ -49,6 +50,7 @@
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
     android:textColor="#FFFFFF"
+    android:background="@drawable/asteroidbutton"
     android:text="Main Menu"
     android:onClick="onMainMenuClick"/>
 </LinearLayout>

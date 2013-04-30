@@ -296,17 +296,21 @@ public class SlicingView extends View{
 				if(gameobjs.get(i).intersect(x, y)){
 					m.hits++;
 					
+					ScoreView sView = (ScoreView) m.findViewById(R.id.ScoreView);
+					
 					if(gameobjs.get(i).width < 33 * sizeMult){
 						m.scoreNumber += 25;		//score increases by 10 for every target hit
+						sView.setCut();
 					}
 					else if(gameobjs.get(i).width >= 33 * sizeMult && gameobjs.get(i).width < 45 * sizeMult){
 						m.scoreNumber += 15;
+						sView.setCut();
 					}
 					else{
 						m.scoreNumber += 10;
+						sView.setCut();
 					}
 
-					ScoreView sView = (ScoreView) m.findViewById(R.id.ScoreView);
 					sView.invalidate();
 					sp.play(EXP_ID, 0.5f, 0.5f, 0, 0, 1);
 					//newGameObject();

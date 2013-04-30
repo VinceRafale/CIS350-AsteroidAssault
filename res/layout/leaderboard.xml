@@ -4,13 +4,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_centerInParent="true"
-    android:textColor="#FFFFFF">
+    android:textColor="#FFFFFF"
+    android:background="@drawable/leaderboard">
     
  <Button android:id="@+id/mainMenu"
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
     android:textColor="#FFFFFF"
     android:text="Main Menu"
+    android:background="@drawable/asteroidbutton"
     android:onClick="onMainMenuClick"/>
 <TextView
      	android:id="@+id/highscoreTitle"

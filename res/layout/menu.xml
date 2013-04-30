@@ -12,13 +12,15 @@
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
   	android:textColor="#FFFFFF"
+  	 android:background="@drawable/asteroidbutton"
     android:text="Start Game"
     android:onClick="onStartButtonClick"/>
 <Button android:id="@+id/leaderboard"
-    android:layout_width="wrap_content" 
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
   	android:textColor="#FFFFFF"
+  	 android:background="@drawable/asteroidbutton"
     android:text="Leaderboard"
     android:onClick="onLeaderboardClick"/>
 <TextView
