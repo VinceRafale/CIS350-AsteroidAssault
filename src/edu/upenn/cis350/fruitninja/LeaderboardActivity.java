@@ -31,7 +31,7 @@ public class LeaderboardActivity extends Activity {
  		highscoreList.setAdapter(aa);
 
  	}
- 	
+ 		
     public void onMainMenuClick(View view){
     	Intent i = new Intent();
     	

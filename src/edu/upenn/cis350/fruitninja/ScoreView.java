@@ -17,6 +17,7 @@ public class ScoreView extends View{
 	public MainActivity m;
 	public String[] visualfeedback = {"Good Job!", "Awesome!", "Clutch!", "Well Done!", "Amazing!", "Good Work!",
 			  "Fantastic!", "Nice!", "Unstoppable!"};
+	public boolean cut;
 	
 	public ScoreView(Context c){
 		super(c);
@@ -41,6 +42,8 @@ public class ScoreView extends View{
 		m.setColor(Color.WHITE);
 		m.setThickness(2);
 
+		cut = false;
+		
 		//visual feedback
 		encouragement = new Paint();
 		encouragement.setColor(Color.WHITE);
@@ -63,9 +66,16 @@ public class ScoreView extends View{
 		
 		int randomIndex = (int) (Math.random()*visualfeedback.length);
 		
-		canvas.drawText(visualfeedback[randomIndex], 160, 30, encouragement);
+		if (cut == true){
+			canvas.drawText(visualfeedback[randomIndex], 160, 30, encouragement);
+			cut = false;
+		}
 		canvas.drawText("Score: " + scoreValue + " ( "+ levNum + " )", 160, 60, scoreLabel);				
 		//canvas.drawText("Score: " + m.t.getElapsedTime(), 160, 60, scoreLabel);		
+	}
+	
+	public void setCut(){
+		cut = true;
 	}
 	
 	public boolean onTouchEvent(MotionEvent e){

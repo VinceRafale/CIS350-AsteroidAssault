@@ -27,12 +27,14 @@
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
     android:textColor="#FFFFFF"
+    android:background="@drawable/asteroidbutton"
     android:text="Main Menu"
     android:onClick="onMainMenuClick"/>
     <Button android:id="@+id/nextLevel"
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
     android:textColor="#FFFFFF"
+    android:background="@drawable/asteroidbutton"
     android:text="Next Level"
     android:onClick="onNextLevelClick"/>
   </LinearLayout>
