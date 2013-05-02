@@ -17,6 +17,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -42,6 +43,8 @@ public class SlicingView extends View{
 		m = (MainActivity) c;
 		mBitmapFromSdcard = BitmapFactory.decodeResource(getResources(), R.drawable.spacebg);
 		loadScreen = BitmapFactory.decodeResource(getResources(), R.drawable.loadscreenmurphy);
+		MediaPlayer slicingMusic = MediaPlayer.create(m, R.raw.asteroidassault);
+		slicingMusic.start();
 		sp = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
 		AssetFileDescriptor afd = m.getAssets().openFd("explosion.wav");
 		AssetFileDescriptor afd2 = m.getAssets().openFd("sadTrombone.wav");
@@ -57,15 +60,16 @@ public class SlicingView extends View{
 		m = (MainActivity) c;
 		mBitmapFromSdcard = BitmapFactory.decodeResource(getResources(), R.drawable.spacebg);
 		loadScreen = BitmapFactory.decodeResource(getResources(), R.drawable.loadscreenmurphy);
-		sp = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
+		MediaPlayer slicingMusic = MediaPlayer.create(m, R.raw.asteroidassault);
+		slicingMusic.start();
+		sp = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
 		AssetFileDescriptor afd = m.getAssets().openFd("explosion.wav");
 		AssetFileDescriptor afd2 = m.getAssets().openFd("sadTrombone.wav");
-		EXP_ID = sp.load(afd, 0);
-		TRMB_ID = sp.load(afd2, 0);
+		EXP_ID = sp.load(afd, 1);
+		TRMB_ID = sp.load(afd2, 1);
 		pictures = m.pictures;
 		brownpictures = m.brownpictures;
 		explosions = m.explosions;
-		//initPics();
 		init();
 		loading = false;
 	}
@@ -137,7 +141,7 @@ public class SlicingView extends View{
 		clear = false;
 		strokes = new ArrayList<Path>();
 		strokesPaint = new ArrayList<Paint>();
-		
+				
 		int xEnter1 = (int)(Math.random()*1200);
 		int yEnter1 = (int)(Math.random()*550);
 		int xSpeed1 = (int)(speedMult*Math.random()*-20);
@@ -149,11 +153,6 @@ public class SlicingView extends View{
 		square.setPicsExps(pickPictures(), explosions);
 		squareTwo.setPicsExps(pickPictures(), explosions);
 		
-		square.getPaint().setColor(Color.RED);
-		squareTwo.getPaint().setColor(Color.BLUE);
-		gameobjs.add(square);
-		gameobjs.add(squareTwo);
-		
 		m.levelNumber = levelNum;
 		
 		//Initialize the Timer
@@ -162,7 +161,7 @@ public class SlicingView extends View{
 	}
 	
 	//Draw the view
-	protected void onDraw(Canvas canvas){
+	protected void onDraw(Canvas canvas){		
 
 		if(loading){
 			canvas.drawBitmap(loadScreen, 0, 0, null);
@@ -171,7 +170,6 @@ public class SlicingView extends View{
 		
         canvas.drawBitmap(mBitmapFromSdcard, 0, 0, null);
 		
-        //newGameObject();
         if(m.t.getElapsedTime() % 2.5 < .025){
         	newGameObject();
         }		
@@ -193,7 +191,6 @@ public class SlicingView extends View{
 				gameobjs.remove(gameobjs.get(i));
 				i--;
 				m.misses++;
-				//newGameObject();
 			}
 		}
 		
@@ -209,12 +206,6 @@ public class SlicingView extends View{
 	    	init();
 	    	invalidate();
 	    }
-	    
-	    /*if m.misses reaches 5 LOSE GAME - to be implemented
-	    if (m.misses >= 5){
-	    	
-	    }*/
-	    
 	    invalidate();
 	}
 	
@@ -288,8 +279,8 @@ public class SlicingView extends View{
 			int y = (int)e.getY();
 			p = new Path();
 			paintBrush = new Paint();
-			paintBrush.setColor(Color.WHITE);                  // set the color
-		    paintBrush.setStrokeWidth(2);        // set the size
+			paintBrush.setColor(Color.WHITE);                   // set the color
+		    paintBrush.setStrokeWidth(2);        				// set the size
 		    paintBrush.setDither(true);                    		// set the dither to true
 		    paintBrush.setStyle(Paint.Style.STROKE);       		// set to STROKE
 		    paintBrush.setStrokeJoin(Paint.Join.ROUND);    		// set the join to round you want
@@ -334,30 +325,6 @@ public class SlicingView extends View{
 				}
 			}
 			
-			//CHECK FOR LEVEL COMPLETION
-			
-			
-			/*if(m.t.getElapsedTime() >= levelTimes[levelNum]){
-				//Win level
-				if(m.scoreNumber >= levelScores[levelNum]){
-					levelNum++;
-					m.levelNumber = levelNum;
-					m.showScoreScreen(true);
-					
-				}
-				//Lose level
-				else{
-					sp.play(TRMB_ID, 0.5f, 0.5f, 0, 0, 1);
-					m.scoreNumber = 0;
-					incSize();
-					m.showScoreScreen(false);
-				}
-				//after exiting score screen, reinitializes the level with the updated level number
-				init();
-			}
-			*/
-			
-			
 			if(m.scoreNumber >= levelScores[levelNum] && m.t.getElapsedTime() < levelTimes[levelNum]){
 				levelNum++;
 				m.levelNumber = levelNum;
@@ -372,9 +339,6 @@ public class SlicingView extends View{
 				m.showScoreScreen(false);
 				init();
 			}
-			
-			
-			
 			
 			invalidate();
 			return true;
@@ -392,7 +356,7 @@ public class SlicingView extends View{
 		int xSpeed = 1;
 		int ySpeed = 1;
 		int size = (int)(Math.random()*50+40);
-		
+				
 		//Left Side
 		if(random < .3){
 			int yPos = (int) (550 * Math.random());
@@ -452,7 +416,5 @@ public class SlicingView extends View{
 		else{
 			return brownpictures;
 		}
-	}
-	
+	}	
 }
-

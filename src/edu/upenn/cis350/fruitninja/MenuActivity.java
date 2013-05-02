@@ -2,6 +2,7 @@ package edu.upenn.cis350.fruitninja;
 
 import java.util.ArrayList;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -24,28 +25,25 @@ public class MenuActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menu);
 		getPlayTime();
+		//Background Music for main screen
+		MediaPlayer menuBackgroundMusic = MediaPlayer.create(MenuActivity.this, R.raw.fruitninjamusic);
+		menuBackgroundMusic.start();
 	}     
 	 
  	public void onStartButtonClick(View v) {
- 	    // create an Intent using the current Activity 
-	    // and the Class to be created
+ 	    // create an Intent using the current Activity and the Class to be created
  	    Intent i = new Intent(this, MainActivity.class);
- 
- 	    // pass the Intent to the Activity, 
- 	    // using the specified request code
+ 	    // pass the Intent to the Activity, using the specified request code
  	    startActivityForResult(i, MainActivity_ID);
-	 } 	
+	} 	
  	
  	public void onLeaderboardClick(View v) {
- 	    // create an Intent using the current Activity 
-	    // and the Class to be created
+ 	    // create an Intent using the current Activity and the Class to be created
  	    Intent i = new Intent(this, LeaderboardActivity.class);
  
- 	    // pass the Intent to the Activity, 
- 	    // using the specified request code
+ 	    // pass the Intent to the Activity, using the specified request code
  	    startActivityForResult(i, LeaderboardActivity_ID);
-	 } 	
-
+	} 	
  	
  	protected void getPlayTime(){
  		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
@@ -63,7 +61,4 @@ public class MenuActivity extends Activity {
  			break;
  		}  
  	}
-
-		
-
 }

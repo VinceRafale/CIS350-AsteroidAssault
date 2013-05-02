@@ -29,7 +29,6 @@ public class LeaderboardActivity extends Activity {
  		ListView highscoreList = (ListView)findViewById(R.id.highscores);
  		ArrayAdapter<Integer> aa = new ArrayAdapter<Integer>(this,android.R.layout.simple_list_item_1, highscores);
  		highscoreList.setAdapter(aa);
-
  	}
  		
     public void onMainMenuClick(View view){
@@ -39,7 +38,6 @@ public class LeaderboardActivity extends Activity {
     	setResult(RESULT_OK, i);
     	// ends this Activity
     	finish(); 
-
     }
 }
 

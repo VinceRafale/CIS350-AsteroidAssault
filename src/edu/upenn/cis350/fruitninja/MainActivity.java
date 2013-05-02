@@ -3,6 +3,7 @@ package edu.upenn.cis350.fruitninja;
 import java.io.File;
 import java.util.Arrays;
 
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,7 +34,6 @@ public class MainActivity extends Activity {
 	public Bitmap[] pictures = new Bitmap[60];
 	public Bitmap[] brownpictures = new Bitmap[60];
 	public Bitmap[] explosions = new Bitmap[35];
-	//public boolean newLevel = false;
 	
 	protected String getBgFile(){
 		return new File(getFilesDir(), "spaceBg.jpg").getAbsolutePath();
@@ -46,9 +46,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // new AsyncTimerTask().execute();
-       // Bundle extras = getIntent().getExtras();
-		//passedLevel = (Boolean)extras.get("NEWLEVEL");
         setContentView(R.layout.load);
         Button loading = (Button)findViewById(R.id.loading);
         loading.setEnabled(false);
@@ -64,18 +61,13 @@ public class MainActivity extends Activity {
 
                 @Override
                 public void onPostExecute(Void result){
-                   /* handler.post(new Runnable(){
-                         @Override
-                         public void run(){
-                             setContentView(R.layout.main);
-                         }
-                    });*/
+                	MediaPlayer menuBackgroundMusic = MediaPlayer.create(MainActivity.this, R.raw.fruitninjamusic);
+            		menuBackgroundMusic.start();
                 	Button loading = (Button)findViewById(R.id.loading);
                 	loading.setEnabled(true);
                     loading.setText("Tap to continue");
                 }
            }.execute();
-        
     }
 
     @Override
@@ -88,7 +80,6 @@ public class MainActivity extends Activity {
     public void onContinueClick(View view){
     	new AsyncTimerTask().execute();
     	setContentView(R.layout.main);
-    	
     }
     
     public void onClearButtonClick(View view){
@@ -96,14 +87,13 @@ public class MainActivity extends Activity {
     	ScoreView sView = (ScoreView)findViewById(R.id.ScoreView);
     
     	pbview.clear = true;
-    	//scoreNumber = 000;
     	pbview.invalidate();
     	sView.invalidate();
     }
     
     public void onincSpeedClick(View view){
     	SlicingView pbview = (SlicingView)findViewById(R.id.SlicingView);
-
+    	
     	pbview.incSpeed();
     	pbview.invalidate();
     }
@@ -117,7 +107,7 @@ public class MainActivity extends Activity {
     	sView.invalidate();
     }
     
-    public void onincSizeClick(View view){
+    /*public void onincSizeClick(View view){
     	SlicingView pbview = (SlicingView)findViewById(R.id.SlicingView);
 
     	pbview.incSize();
@@ -130,7 +120,7 @@ public class MainActivity extends Activity {
     	pbview.decSize();
     	pbview.invalidate();
     }
-    
+    */
     public void onMainMenuClick(View view){
     	updateScore();
     	updateTime();
@@ -139,7 +129,6 @@ public class MainActivity extends Activity {
     	setResult(RESULT_OK, i);
     	// ends this Activity
     	finish(); 
-
     }
     
     protected void onStop(){
@@ -149,7 +138,7 @@ public class MainActivity extends Activity {
      }
     
     protected void updateScore(){
-    	 // We need an Editor object to make preference changes.
+    	// We need an Editor object to make preference changes.
         // All objects are from android.context.Context
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -189,15 +178,13 @@ public class MainActivity extends Activity {
     
     public void showScoreScreen(boolean passedLevel) {
     	updateTime();
- 	    // create an Intent using the current Activity 
-	    // and the Class to be created
+ 	    // create an Intent using the current Activity and the Class to be created
  	    Intent i = new Intent(this, ScoreScreenActivity.class);
  	    i.putExtra("PLAYTIME", playTimer.getElapsedTime());
  	    i.putExtra("HITS", hits);
  	    i.putExtra("MISSES", misses);
  	    i.putExtra("PASSED", passedLevel);
- 	    // pass the Intent to the Activity, 
- 	    // using the specified request code
+ 	    // pass the Intent to the Activity, using the specified request code
  	    startActivityForResult(i, ScoreScreenActivity_ID);
 	 } 	
     
@@ -215,7 +202,6 @@ public class MainActivity extends Activity {
     	protected String doInBackground(String... inputs){
     		String reply = "Loading";
     		return reply;
-    		
     	}
     	
     	protected void onPostExecute(String result){
@@ -223,7 +209,6 @@ public class MainActivity extends Activity {
     		timer.setTextColor(Color.RED);
     		timer.start();
     	}
-    	
     }
     
     protected void initPics(){
@@ -250,7 +235,7 @@ public class MainActivity extends Activity {
 			brownpictures[i-1] = BitmapFactory.decodeResource(getResources(), resID, o);
 			System.out.println(mDrawableName);
 		}
-		//Decode all explosion frames - brown ones not in yet
+		//Decode all explosion frames
 		for (int i=16; i<16+explosions.length; i++){
 			mDrawableName = "explosion0" + i;
 			resID = getResources().getIdentifier(mDrawableName , "drawable", this.getPackageName());

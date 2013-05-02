@@ -2,6 +2,7 @@ package edu.upenn.cis350.fruitninja;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -37,28 +38,23 @@ public class ScoreScreenActivity extends Activity {
 	}     
 	
     public void onMainMenuClick(View view){
- 	    // create an Intent using the current Activity 
-	    // and the Class to be created
+ 	    // create an Intent using the current Activity and the Class to be created
     	
  	    Intent i = new Intent(this, MenuActivity.class);
  	    //Finish current Activity
  	    finish();
- 	    // pass the Intent to the Activity, 
- 	    // using the specified request code
+ 	    MediaPlayer menuBackgroundMusic = MediaPlayer.create(ScoreScreenActivity.this, R.raw.fruitninjamusic);
+		menuBackgroundMusic.start();
+ 	    // pass the Intent to the Activity, using the specified request code
  	    startActivityForResult(i, MenuActivity_ID);
     }
     
     public void onNextLevelClick(View view){
- 	    // create an Intent using the current Activity 
-	    // and the Class to be created
+ 	    // create an Intent using the current Activity and the Class to be created
  	    Intent i = new Intent(this, MainActivity.class);
  	    i.putExtra("NEWLEVEL", passedLevel);
- 
- 	    //Finish current activity
+ 	    
+		//Finish current activity
  	    finish();
- 	    // pass the Intent to the Activity, 
- 	    // using the specified request code
- 	   //startActivityForResult(i, MainActivity_ID);
     }
-	
 }

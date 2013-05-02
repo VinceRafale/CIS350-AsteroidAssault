@@ -6,15 +6,15 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.ShapeDrawable;
 
-//Class for a GameObject(fruit/sushi/baby/etc) -- maybe later on shapes can be inheriting from this
+//Class for a GameObject
 public class GameObject extends ShapeDrawable {
 	
-	protected int x; //X coordinate of top left corner
-	protected int y; //Y coordinate of top left corner
-	protected double xspeed; //Speed in X direction
-	protected double yspeed; //Speed in Y direction
-	protected int width;  //Width
-	protected int height; //Height
+	protected int x; 			//X coordinate of top left corner
+	protected int y; 			//Y coordinate of top left corner
+	protected double xspeed; 	//Speed in X direction
+	protected double yspeed; 	//Speed in Y direction
+	protected int width;  		//Width
+	protected int height; 		//Height
 	protected Bitmap picture;
 	protected Bitmap[] pictures;
 	protected Bitmap[] explosions;
@@ -35,7 +35,6 @@ public class GameObject extends ShapeDrawable {
 		exploded = false;
 	}
 	
-	
 	//Changes x and y coordinates by adding speed on every draw call
 	@Override
 	public void draw(Canvas canvas) {
@@ -46,21 +45,16 @@ public class GameObject extends ShapeDrawable {
 			Rect boundRect = new Rect(x,y,x+width,y+height);
 			canvas.drawBitmap(explosions[index/2], null, boundRect, this.getPaint());
 			if(index < 35) {index++;}
-
 		}
 		else{
 			x+=xspeed;
 			y-=yspeed;
 			this.setBounds(x,y,x+width,y+height);
-			//canvas.drawBitmap(Bitmap , matrix, paint)
 			Rect boundRect = new Rect(x,y,x+width,y+height);
-			//canvas.drawBitmap(picture, null, boundRect, this.getPaint());
 			canvas.drawBitmap(pictures[index/2], null, boundRect, this.getPaint());
 			index++;
 			if(index >= 120){index=0;}
 		}
-		//System.out.println(index);
-		//super.draw(canvas);
 	}
 	
 	//Test intersection between an input point and the object

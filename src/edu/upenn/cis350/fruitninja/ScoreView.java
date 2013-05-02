@@ -56,22 +56,21 @@ public class ScoreView extends View{
 		scoreLabel.setColor(Color.RED);
 		scoreLabel.setTextAlign(Paint.Align.LEFT);
 		scoreLabel.setTypeface(Typeface.SANS_SERIF);
-		scoreLabel.setTextSize(25);
+		scoreLabel.setTextSize(30);
 	}
 	
 	protected void onDraw(Canvas canvas){
-		//	canvas.drawColor(Color.BLACK);
 		String scoreValue = Integer.toString(m.scoreNumber);
-		String levNum = Integer.toString(m.levelNumber);
+		String levNum = Integer.toString(m.levelNumber+1);
 		
 		int randomIndex = (int) (Math.random()*visualfeedback.length);
 		
 		if (cut == true){
-			canvas.drawText(visualfeedback[randomIndex], 160, 30, encouragement);
+			canvas.drawText(visualfeedback[randomIndex], 0, 30, encouragement);
 			cut = false;
 		}
-		canvas.drawText("Score: " + scoreValue + " ( "+ levNum + " )", 160, 60, scoreLabel);				
-		//canvas.drawText("Score: " + m.t.getElapsedTime(), 160, 60, scoreLabel);		
+		canvas.drawText("Score: " + scoreValue, 100, 60, scoreLabel);
+		canvas.drawText("Level: " + levNum, 0, 60, encouragement);
 	}
 	
 	public void setCut(){
@@ -85,5 +84,4 @@ public class ScoreView extends View{
 		}
 		return false;
 	}
-	
 }
